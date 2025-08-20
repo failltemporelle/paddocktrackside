@@ -145,7 +145,7 @@ const raceLabels = ref<string[]>([])
 const driver1Points = ref<number[]>([])
 const driver2Points = ref<number[]>([])
 
-const { fetchDriverStandings } = useErgastApi()
+const { fetchDriverStandings } = useJolpicaApi()
 
 // Charger la liste des pilotes disponibles
 onMounted(async () => {

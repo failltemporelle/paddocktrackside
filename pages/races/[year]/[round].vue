@@ -42,7 +42,7 @@ import type { Race } from '~/types/f1'
 
 const route = useRoute()
 const { generateMeta } = useSeo()
-const { fetchRaceResults, fetchQualifyingResults, fetchSprintResults } = useErgastApi()
+const { fetchRaceResults, fetchQualifyingResults, fetchSprintResults } = useJolpicaApi()
 
 const loading = ref(true)
 const race = ref<Race | null>(null)

@@ -110,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-const { fetchDriverStandings, fetchConstructorStandings } = useErgastApi()
+const { fetchDriverStandings, fetchConstructorStandings } = useJolpicaApi()
 const loading = ref(true)
 const drivers = ref([])
 const constructors = ref([])

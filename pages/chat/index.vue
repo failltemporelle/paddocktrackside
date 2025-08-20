@@ -58,8 +58,8 @@ const rooms = ref<ChatRoom[]>([
 // Add driver and constructor rooms
 onMounted(async () => {
   const [drivers, constructors] = await Promise.all([
-    useErgastApi().fetchDriverStandings(),
-    useErgastApi().fetchConstructorStandings()
+    useJolpicaApi().fetchDriverStandings(),
+    useJolpicaApi().fetchConstructorStandings()
   ])
 
   // Add driver rooms

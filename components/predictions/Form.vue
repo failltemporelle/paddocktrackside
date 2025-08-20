@@ -80,7 +80,7 @@ const emit = defineEmits<{
   submit: [prediction: Prediction]
 }>()
 
-const { fetchDriverStandings } = useErgastApi()
+const { fetchDriverStandings } = useJolpicaApi()
 const { fetchCurrentSeasonRaces } = useRaceData()
 
 const currentDrivers = ref([])
