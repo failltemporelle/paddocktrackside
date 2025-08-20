@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-const { fetchDriverStandings, fetchConstructorStandings } = useErgastApi()
+const { fetchDriverStandings, fetchConstructorStandings } = useJolpicaApi()
 const currentYear = new Date().getFullYear()
 
 const loading = ref(false)

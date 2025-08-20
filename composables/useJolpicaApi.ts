@@ -1,6 +1,6 @@
 import type { Driver, Constructor, Race, QualifyingResult, SprintResult } from '~/types/f1'
 
-export const useErgastApi = () => {
+export const useJolpicaApi = () => {
   const config = useRuntimeConfig()
   const currentYear = new Date().getFullYear()
 
