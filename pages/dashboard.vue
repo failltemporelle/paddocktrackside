@@ -26,15 +26,22 @@
         <!-- Statistiques historiques -->
         <div class="mt-12">
           <h2 class="text-2xl font-bold mb-6">Statistiques historiques</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <KpiCard
-              v-for="stat in allTimeStats"
-              :key="stat.title"
-              :title="stat.title"
-              :value="stat.value"
-              :subtitle="stat.subtitle"
-              :tone="stat.tone"
-            />
+          <div
+            v-for="group in historicalStats"
+            :key="group.category"
+            class="mb-10"
+          >
+            <h3 class="text-xl font-semibold mb-4">{{ group.category }}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <KpiCard
+                v-for="stat in group.items"
+                :key="stat.title"
+                :title="stat.title"
+                :value="stat.value"
+                :subtitle="stat.subtitle"
+                :tone="stat.tone"
+              />
+            </div>
           </div>
         </div>
 
@@ -66,13 +73,114 @@
   const allResults = ref<any[]>([])
 
   // Statistiques historiques (données arrêtées en 2024)
-  const allTimeStats = [
-    { title: 'Pilote le plus titré', value: 'M. Schumacher & L. Hamilton', subtitle: '7 titres', tone: 'emerald' },
-    { title: 'Pilote le plus victorieux', value: 'Lewis Hamilton', subtitle: '103 victoires', tone: 'cyan' },
-    { title: 'Écurie la plus victorieuse', value: 'Ferrari', subtitle: '243 victoires', tone: 'violet' },
-    { title: 'Écurie la plus titrée', value: 'Ferrari', subtitle: '16 titres constructeurs', tone: 'lime' },
-    { title: 'Record de pole positions', value: 'Lewis Hamilton', subtitle: '104 poles', tone: 'emerald' },
-    { title: 'Record de podiums', value: 'Lewis Hamilton', subtitle: '197 podiums', tone: 'cyan' }
+  const historicalStats = [
+    {
+      category: 'Chiffres clés',
+      items: [
+        { title: "Année de création", value: '1950', subtitle: '', tone: 'emerald' },
+        { title: 'Nombre total de Grands Prix', value: '1108', subtitle: '', tone: 'cyan' },
+        { title: 'Nombre total de saisons', value: '75', subtitle: '', tone: 'violet' },
+        { title: 'Circuits utilisés', value: '76', subtitle: '', tone: 'lime' },
+        { title: 'Pays hôtes', value: '34', subtitle: '', tone: 'emerald' },
+        { title: 'Pilotes ayant couru', value: '775', subtitle: '', tone: 'cyan' },
+        { title: 'Écuries participantes', value: '170', subtitle: '', tone: 'violet' },
+      ],
+    },
+    {
+      category: 'Titres et records',
+      items: [
+        { title: 'Champions du monde', value: '34', subtitle: '', tone: 'emerald' },
+        { title: 'Pilote le plus titré', value: 'M. Schumacher & L. Hamilton', subtitle: '7 titres', tone: 'cyan' },
+        { title: 'Écurie la plus titrée', value: 'Ferrari', subtitle: '16 titres constructeurs', tone: 'violet' },
+        { title: 'Plus jeune champion', value: 'S. Vettel', subtitle: '23 ans', tone: 'lime' },
+        { title: 'Plus vieux champion', value: 'J. M. Fangio', subtitle: '46 ans', tone: 'emerald' },
+        { title: 'Plus grand écart pour un titre', value: '155 pts', subtitle: 'Vettel 2013', tone: 'cyan' },
+        { title: 'Plus petit écart pour un titre', value: '0,5 pt', subtitle: 'Lauda 1984', tone: 'violet' },
+      ],
+    },
+    {
+      category: 'Victoires et podiums',
+      items: [
+        { title: 'Pilote le plus victorieux', value: 'Lewis Hamilton', subtitle: '103 victoires', tone: 'emerald' },
+        { title: 'Écurie la plus victorieuse', value: 'Ferrari', subtitle: '243 victoires', tone: 'cyan' },
+        { title: 'Total des victoires', value: '1108', subtitle: '', tone: 'violet' },
+        { title: 'Pays le plus victorieux', value: 'Royaume-Uni', subtitle: '299 victoires', tone: 'lime' },
+        { title: 'Total des podiums', value: '3324', subtitle: '', tone: 'emerald' },
+        { title: 'Podiums sans victoire', value: 'Nick Heidfeld', subtitle: '13 podiums', tone: 'cyan' },
+        { title: 'Victoires sans titre', value: 'Stirling Moss', subtitle: '16 victoires', tone: 'violet' },
+      ],
+    },
+    {
+      category: 'Qualifications',
+      items: [
+        { title: 'Record de poles', value: 'Lewis Hamilton', subtitle: '104 poles', tone: 'emerald' },
+        { title: 'Écurie avec le plus de poles', value: 'Ferrari', subtitle: '249 poles', tone: 'cyan' },
+        { title: 'Plus jeune poleman', value: 'S. Vettel', subtitle: '21 ans', tone: 'violet' },
+        { title: 'Plus vieux poleman', value: 'G. Farina', subtitle: '47 ans', tone: 'lime' },
+        { title: 'Total des poles', value: '1108', subtitle: '', tone: 'emerald' },
+      ],
+    },
+    {
+      category: 'Records de tours',
+      items: [
+        { title: 'Meilleurs tours pilote', value: 'M. Schumacher', subtitle: '77', tone: 'cyan' },
+        { title: 'Meilleurs tours écurie', value: 'Ferrari', subtitle: '259', tone: 'violet' },
+        { title: 'Tour le plus rapide en course', value: '1:19.525', subtitle: 'Montoya, Monza 2004', tone: 'lime' },
+        { title: 'Tour le plus rapide en qualifs', value: '1:18.887', subtitle: 'Hamilton, Monza 2020', tone: 'emerald' },
+      ],
+    },
+    {
+      category: 'Techniques & machines',
+      items: [
+        { title: 'Voiture la plus dominante', value: 'Mercedes W11', subtitle: '2020', tone: 'cyan' },
+        { title: 'Moteur le plus victorieux', value: 'Ferrari', subtitle: '243 victoires', tone: 'violet' },
+        { title: 'Motoristes différents', value: '73', subtitle: '', tone: 'lime' },
+        { title: 'Conso moy. par course', value: '≈150 L', subtitle: '', tone: 'emerald' },
+        { title: 'Fournisseurs de pneus', value: '12', subtitle: 'depuis 1950', tone: 'cyan' },
+        { title: 'Pit stop le plus rapide', value: '1.82 s', subtitle: 'Red Bull 2019', tone: 'violet' },
+      ],
+    },
+    {
+      category: 'Géographie & circuits',
+      items: [
+        { title: 'Circuit le plus fréquenté', value: 'Monza', subtitle: '73 GP', tone: 'emerald' },
+        { title: 'Circuit le plus rapide', value: 'Monza', subtitle: '≈264 km/h', tone: 'cyan' },
+        { title: 'Circuit le plus lent', value: 'Monaco', subtitle: '≈160 km/h', tone: 'violet' },
+        { title: 'Total des circuits', value: '76', subtitle: '', tone: 'lime' },
+        { title: 'Pays le plus hôte', value: 'Italie', subtitle: '≈103 GP', tone: 'emerald' },
+        { title: 'Premier GP hors-Europe', value: 'Indianapolis 1950', subtitle: 'États-Unis', tone: 'cyan' },
+      ],
+    },
+    {
+      category: 'Fiabilité & abandons',
+      items: [
+        { title: 'Total des abandons', value: '>16000', subtitle: '', tone: 'violet' },
+        { title: 'Cause la plus fréquente', value: 'Mécanique', subtitle: '', tone: 'lime' },
+        { title: 'Abandons dans une course', value: '18', subtitle: 'Monaco 1996', tone: 'emerald' },
+        { title: 'Écurie la plus fiable', value: 'Mercedes', subtitle: '>90% de fins de course', tone: 'cyan' },
+      ],
+    },
+    {
+      category: 'Autres records',
+      items: [
+        { title: 'Course la plus longue', value: 'Canada 2011', subtitle: '4h04', tone: 'violet' },
+        { title: 'Course la plus courte', value: 'Spa 2021', subtitle: '3 min', tone: 'lime' },
+        { title: 'Dépassements record', value: '170', subtitle: 'Chine 2016', tone: 'emerald' },
+        { title: 'Vitesse max en course', value: '372,5 km/h', subtitle: 'Montoya Monza 2005', tone: 'cyan' },
+        { title: 'Pilotes tués en course', value: '52', subtitle: '', tone: 'violet' },
+        { title: 'Introduction du halo', value: '2018', subtitle: 'aucun décès depuis', tone: 'lime' },
+        { title: 'Introduction du DRS', value: '2011', subtitle: '+40% dépassements', tone: 'emerald' },
+      ],
+    },
+    {
+      category: 'Classements cumulés',
+      items: [
+        { title: 'Nation la plus titrée', value: 'Royaume-Uni', subtitle: 'pilotes + constructeurs', tone: 'cyan' },
+        { title: 'Écurie la plus prolifique', value: 'Ferrari', subtitle: '~10k points', tone: 'violet' },
+        { title: 'Pilote le plus expérimenté', value: 'Fernando Alonso', subtitle: '380+ GP', tone: 'lime' },
+        { title: 'Circuit le plus disputé', value: 'Monza', subtitle: '73 GP', tone: 'emerald' },
+      ],
+    },
   ]
 
   onMounted(async () => {
