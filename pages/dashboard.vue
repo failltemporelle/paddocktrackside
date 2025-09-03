@@ -5,7 +5,7 @@
         <div class="flex items-center justify-between mb-8">
           <div>
             <h1 class="text-3xl font-bold tracking-tight">F1 Dashboard</h1>
-            <p class="text-zinc-400">Données en direct via l'API Ergast — saison en cours</p>
+            <p class="text-zinc-400">Données en direct via l'API Jolpica — saison en cours</p>
           </div>
           <div class="flex items-center gap-2 text-zinc-300">
             <Icon name="mdi:car-sports" class="w-6 h-6" />
@@ -74,8 +74,8 @@
         </div>
   
         <p class="mt-10 text-xs text-zinc-500">
-          Source: <a class="underline" href="https://ergast.com/mrd/" target="_blank" rel="noopener noreferrer">Ergast Developer API</a>
-        </p>
+          Source: <a class="underline" href="https://jolpi.ca/" target="_blank" rel="noopener noreferrer">Jolpica API</a>
+      </p>
       </div>
     </div>
   </template>
@@ -90,48 +90,50 @@
   //   nuxtApp.vueApp.component('apexchart', VueApexCharts)
   // })
   
-  import { computed, reactive, watchEffect, defineComponent } from 'vue'
-  
-  /* -------------------- Fetch Ergast -------------------- */
-  const { data: driverStandings } = await useAsyncData('driver-standings', () =>
-    $fetch<any>('https://ergast.com/api/f1/current/driverStandings.json')
-  )
-  const { data: constructorStandings } = await useAsyncData('constructor-standings', () =>
-    $fetch<any>('https://ergast.com/api/f1/current/constructorStandings.json')
-  )
-  const { data: winners } = await useAsyncData('race-winners', () =>
-    $fetch<any>('https://ergast.com/api/f1/current/results/1.json?limit=1000')
-  )
-  const { data: fastest } = await useAsyncData('fastest-laps', () =>
-    $fetch<any>('https://ergast.com/api/f1/current/fastest/1/results.json?limit=1000')
-  )
-  const { data: allResults } = await useAsyncData('all-results', () =>
-    $fetch<any>('https://ergast.com/api/f1/current/results.json?limit=1000')
-  )
-  const { data: schedule } = await useAsyncData('schedule', () =>
-    $fetch<any>('https://ergast.com/api/f1/current.json')
-  )
+  import { ref, computed, reactive, watchEffect, defineComponent, onMounted } from 'vue'
+
+  /* -------------------- Fetch Jolpica -------------------- */
+  const { fetchDriverStandings, fetchConstructorStandings, fetchRaces, fetchRaceResults } = useJolpicaApi()
+
+  const driverStandings = ref<any[]>([])
+  const constructorStandings = ref<any[]>([])
+  const schedule = ref<any[]>([])
+  const allResults = ref<any[]>([])
+
+  onMounted(async () => {
+    try {
+      const [driversData, constructorsData, races] = await Promise.all([
+        fetchDriverStandings(),
+        fetchConstructorStandings(),
+        fetchRaces()
+      ])
+      driverStandings.value = driversData || []
+      constructorStandings.value = constructorsData || []
+      schedule.value = races || []
+
+      for (const race of races || []) {
+        const res = await fetchRaceResults(race.season, race.round)
+        if (res[0]?.Results?.length) {
+          allResults.value.push(res[0])
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors de la récupération des données:', error)
+    }
+  })
   
   /* -------------------- Méta/KPI -------------------- */
-  const season = computed(() => driverStandings.value?.MRData?.StandingsTable?.season)
+  const season = computed(() => schedule.value?.[0]?.season)
   const updatedAt = new Date().toLocaleTimeString()
   
-  const standingsList = computed(
-    () => driverStandings.value?.MRData?.StandingsTable?.StandingsLists?.[0]?.DriverStandings || []
-  )
-  const teamStandingsList = computed(
-    () => constructorStandings.value?.MRData?.StandingsTable?.StandingsLists?.[0]?.ConstructorStandings || []
-  )
+  const standingsList = computed(() => driverStandings.value || [])
+  const teamStandingsList = computed(() => constructorStandings.value || [])
   
-  const totalRounds = computed(() => schedule.value?.MRData?.RaceTable?.Races?.length || 0)
-  const racesCompleted = computed(() => {
-    const winnersCount = winners.value?.MRData?.RaceTable?.Races?.length || 0
-    return Math.min(winnersCount, totalRounds.value)
-  })
+  const totalRounds = computed(() => schedule.value.length)
+  const racesCompleted = computed(() => allResults.value.length)
   const nextRace = computed(() => {
-    const races = schedule.value?.MRData?.RaceTable?.Races || []
     const now = new Date()
-    return races.find((r: any) => new Date(r.date + 'T' + (r.time || '00:00:00Z')) > now)
+    return schedule.value.find((r: any) => new Date(r.date + 'T' + (r.time || '00:00:00Z')) > now)
   })
   const nextRaceSubtitle = computed(() => {
     if (!nextRace.value) return '—'
@@ -188,7 +190,7 @@
     charts.teams = { options: buildBarOptions(tCats, '#34d399'), series: [{ name: 'Points', data: tVals }] }
   
     // Victoires
-    const winRaces = winners.value?.MRData?.RaceTable?.Races || []
+    const winRaces = allResults.value
     const winByDriver: Record<string, number> = {}
     const winByTeam:   Record<string, number> = {}
     for (const r of winRaces) {
@@ -201,7 +203,7 @@
     }
     const dPairs = Object.entries(winByDriver).sort((a, b) => b[1] - a[1])
     charts.winsByDriver = { options: buildBarOptions(dPairs.map(([k]) => k), '#a78bfa'), series: [{ name: 'Victoires', data: dPairs.map(([, v]) => v) }] }
-  
+
     const tPairs = Object.entries(winByTeam).sort((a, b) => b[1] - a[1])
     charts.winsByTeam = {
       options: {
@@ -216,10 +218,10 @@
     }
   
     // Meilleurs tours
-    const flRaces = fastest.value?.MRData?.RaceTable?.Races || []
+    const flRaces = allResults.value
     const flByDriver: Record<string, number> = {}
     for (const r of flRaces) {
-      const dr = r.Results?.[0]?.Driver?.familyName
+      const dr = r.Results?.find((res: any) => res.FastestLap?.rank === '1')?.Driver?.familyName
       if (!dr) continue
       flByDriver[dr] = (flByDriver[dr] || 0) + 1
     }
@@ -227,7 +229,7 @@
     charts.fastestByDriver = { options: buildBarOptions(flPairs.map(([k]) => k), '#bef264'), series: [{ name: 'Fastest Laps', data: flPairs.map(([, v]) => v) }] }
   
     // Podiums (P1/P2/P3)
-    const results = allResults.value?.MRData?.RaceTable?.Races || []
+    const results = allResults.value
     const podiums: Record<string, { P1: number; P2: number; P3: number }> = {}
     for (const r of results) {
       for (const res of (r as any).Results || []) {
@@ -253,7 +255,7 @@
     }
   
     // Progression des points (Top 5)
-    const rounds   = (schedule.value?.MRData?.RaceTable?.Races || []).map((r: any) => r.round)
+    const rounds   = schedule.value.map((r: any) => r.round)
     const byDriver: Record<string, number[]> = {}
     const points:   Record<string, number>   = {}
     for (const r of results) {
