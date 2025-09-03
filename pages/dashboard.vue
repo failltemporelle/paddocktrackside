@@ -21,57 +21,7 @@
           <KpiCard title="Leader pilotes" :value="topDriver?.Driver?.familyName || '—'" :subtitle="(topDriver?.points || 0) + ' pts'" tone="violet" />
           <KpiCard title="Leader écuries" :value="topTeam?.Constructor?.name || '—'" :subtitle="(topTeam?.points || 0) + ' pts'" tone="lime" />
         </div>
-  
-        <!-- Charts Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-          <NeonCard title="Points — Top 10 pilotes" subtitle="Comparaison des points cumulés">
-            <ClientOnly>
-              <apexchart height="260" type="bar" :options="charts.pointsTop10.options" :series="charts.pointsTop10.series" />
-            </ClientOnly>
-          </NeonCard>
-  
-          <NeonCard title="Points — Constructeurs" subtitle="Classement écuries">
-            <ClientOnly>
-              <apexchart height="260" type="bar" :options="charts.teams.options" :series="charts.teams.series" />
-            </ClientOnly>
-          </NeonCard>
-  
-          <NeonCard title="Victoires par pilote" subtitle="Saison en cours">
-            <ClientOnly>
-              <apexchart height="260" type="bar" :options="charts.winsByDriver.options" :series="charts.winsByDriver.series" />
-            </ClientOnly>
-          </NeonCard>
-  
-          <NeonCard title="Victoires par écurie" subtitle="Répartition" variant="glow-red">
-            <ClientOnly>
-              <apexchart height="260" type="radialBar" :options="charts.winsByTeam.options" :series="charts.winsByTeam.series" />
-            </ClientOnly>
-          </NeonCard>
-  
-          <NeonCard title="Meilleurs tours" subtitle="Par pilote">
-            <ClientOnly>
-              <apexchart height="260" type="bar" :options="charts.fastestByDriver.options" :series="charts.fastestByDriver.series" />
-            </ClientOnly>
-          </NeonCard>
-  
-          <NeonCard title="Podiums par pilote" subtitle="Top 12">
-            <ClientOnly>
-              <apexchart height="260" type="bar" :options="charts.podiums.options" :series="charts.podiums.series" />
-            </ClientOnly>
-          </NeonCard>
-  
-          <NeonCard title="Progression points (Top 5)" subtitle="par manche" variant="glow-green">
-            <ClientOnly>
-              <apexchart height="260" type="line" :options="charts.pointsProgress.options" :series="charts.pointsProgress.series" />
-            </ClientOnly>
-          </NeonCard>
-  
-          <NeonCard title="Abandons par écurie" subtitle="DNF ou DSQ">
-            <ClientOnly>
-              <apexchart height="260" type="bar" :options="charts.dnfByTeam.options" :series="charts.dnfByTeam.series" />
-            </ClientOnly>
-          </NeonCard>
-        </div>
+
 
         <!-- Statistiques historiques -->
         <div class="mt-12">
