@@ -72,7 +72,22 @@
             </ClientOnly>
           </NeonCard>
         </div>
-  
+
+        <!-- Statistiques historiques -->
+        <div class="mt-12">
+          <h2 class="text-2xl font-bold mb-6">Statistiques historiques</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <KpiCard
+              v-for="stat in allTimeStats"
+              :key="stat.title"
+              :title="stat.title"
+              :value="stat.value"
+              :subtitle="stat.subtitle"
+              :tone="stat.tone"
+            />
+          </div>
+        </div>
+
         <p class="mt-10 text-xs text-zinc-500">
           Source: <a class="underline" href="https://jolpi.ca/" target="_blank" rel="noopener noreferrer">Jolpica API</a>
       </p>
@@ -99,6 +114,16 @@
   const constructorStandings = ref<any[]>([])
   const schedule = ref<any[]>([])
   const allResults = ref<any[]>([])
+
+  // Statistiques historiques (données arrêtées en 2024)
+  const allTimeStats = [
+    { title: 'Pilote le plus titré', value: 'M. Schumacher & L. Hamilton', subtitle: '7 titres', tone: 'emerald' },
+    { title: 'Pilote le plus victorieux', value: 'Lewis Hamilton', subtitle: '103 victoires', tone: 'cyan' },
+    { title: 'Écurie la plus victorieuse', value: 'Ferrari', subtitle: '243 victoires', tone: 'violet' },
+    { title: 'Écurie la plus titrée', value: 'Ferrari', subtitle: '16 titres constructeurs', tone: 'lime' },
+    { title: 'Record de pole positions', value: 'Lewis Hamilton', subtitle: '104 poles', tone: 'emerald' },
+    { title: 'Record de podiums', value: 'Lewis Hamilton', subtitle: '197 podiums', tone: 'cyan' }
+  ]
 
   onMounted(async () => {
     try {
