@@ -58,12 +58,7 @@
           <BarChart
             v-if="!loading"
             :labels="driverLabels"
-            :datasets="[{
-              label: 'Points',
-              data: driverPoints,
-              backgroundColor: '#E10600',
-              borderColor: '#15151E'
-            }]"
+            :datasets="driverDatasets"
           />
           <DashboardSkeleton v-else />
         </div>
@@ -79,12 +74,7 @@
           <BarChart
             v-if="!loading"
             :labels="constructorLabels"
-            :datasets="[{
-              label: 'Points',
-              data: constructorPoints,
-              backgroundColor: '#15151E',
-              borderColor: '#E10600'
-            }]"
+            :datasets="constructorDatasets"
           />
           <DashboardSkeleton v-else />
         </div>
@@ -168,12 +158,7 @@
           <BarChart
             v-if="!loading"
             :labels="driverLabels"
-            :datasets="[{
-              label: 'Victoires',
-              data: driverWins,
-              backgroundColor: '#38383F',
-              borderColor: '#E10600'
-            }]"
+            :datasets="driverWinsDatasets"
           />
           <DashboardSkeleton v-else />
         </div>
@@ -196,6 +181,54 @@ const driverWins   = computed(() => drivers.value.map(d => Number(d.wins)))
 
 const constructorLabels = computed(() => constructors.value.map(c => c.Constructor.name))
 const constructorPoints = computed(() => constructors.value.map(c => Number(c.points)))
+
+const driverDatasets = computed(() => [{
+  label: 'Points',
+  data: driverPoints.value,
+  backgroundColor: (ctx: any) => {
+    const chart = ctx.chart
+    const { ctx: c, chartArea } = chart
+    if (!chartArea) return '#22c55e'
+    const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+    gradient.addColorStop(0, '#16a34a')
+    gradient.addColorStop(1, '#22c55e')
+    return gradient
+  },
+  borderRadius: 6,
+  borderWidth: 0
+}])
+
+const constructorDatasets = computed(() => [{
+  label: 'Points',
+  data: constructorPoints.value,
+  backgroundColor: (ctx: any) => {
+    const chart = ctx.chart
+    const { ctx: c, chartArea } = chart
+    if (!chartArea) return '#ef4444'
+    const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+    gradient.addColorStop(0, '#b91c1c')
+    gradient.addColorStop(1, '#ef4444')
+    return gradient
+  },
+  borderRadius: 6,
+  borderWidth: 0
+}])
+
+const driverWinsDatasets = computed(() => [{
+  label: 'Victoires',
+  data: driverWins.value,
+  backgroundColor: (ctx: any) => {
+    const chart = ctx.chart
+    const { ctx: c, chartArea } = chart
+    if (!chartArea) return '#fb923c'
+    const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
+    gradient.addColorStop(0, '#c2410c')
+    gradient.addColorStop(1, '#fb923c')
+    return gradient
+  },
+  borderRadius: 6,
+  borderWidth: 0
+}])
 
 const topDrivers = computed(() => drivers.value.slice(0, 5))
 const topConstructors = computed(() => constructors.value.slice(0, 5))

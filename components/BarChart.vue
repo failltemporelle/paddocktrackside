@@ -37,8 +37,10 @@ const props = defineProps({
     type: Array as PropType<{
       label: string
       data: number[]
-      backgroundColor: string
+      backgroundColor: string | ((ctx: any) => string | CanvasGradient)
       borderColor?: string
+      borderWidth?: number
+      borderRadius?: number
     }[]>,
     required: true
   }
@@ -54,7 +56,10 @@ const chartOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: 'top' as const
+      position: 'top' as const,
+      labels: {
+        color: '#9ca3af'
+      }
     },
     tooltip: {
       mode: 'index' as const,
@@ -62,8 +67,23 @@ const chartOptions = {
     }
   },
   scales: {
+    x: {
+      grid: {
+        display: false
+      },
+      ticks: {
+        color: '#9ca3af'
+      }
+    },
     y: {
-      beginAtZero: true
+      beginAtZero: true,
+      grid: {
+        color: 'rgba(156,163,175,0.1)',
+        drawBorder: false
+      },
+      ticks: {
+        color: '#9ca3af'
+      }
     }
   }
 }
