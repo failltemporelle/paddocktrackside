@@ -147,6 +147,9 @@ const getCountryCode = (nationality: string) => {
     'Monegasque': 'mc',
     'American': 'us',
     'New Zealander': 'nz',
+    'Brazilian': 'br',
+    'Argentinean': 'ar',
+    'Argentine': 'ar',
   }
   return countryMap[nationality]?.toLowerCase() || 'unknown'
 }
