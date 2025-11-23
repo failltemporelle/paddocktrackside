@@ -1,79 +1,67 @@
 <template>
-  <div class="card bg-white hover:shadow-xl transition-all duration-300">
-    <!-- En-tête avec image et overlay -->
-    <div class="relative h-48 rounded-t-xl overflow-hidden" :style="headerBackground">
-      <img 
-        :src="constructorImage" 
-        :alt="constructor.Constructor.name"
-        class="absolute left-1/2 -translate-x-1/2 h-full object-contain object-center transform hover:scale-105 transition-transform duration-500"
-        :class="{ 'opacity-0': loading, 'opacity-100': !loading }"
-        @error="handleImageError"
-        @load="loading = false"
-        loading="lazy"
-      />
-      <div 
-        v-if="loading || showPlaceholder" 
-        class="absolute inset-0 bg-base-200 flex items-center justify-center"
-      >
-        <div v-if="loading" class="loading loading-spinner loading-lg"></div>
-        <div v-else class="text-4xl">🏎️</div>
-      </div>
+  <div class="group h-full">
+    <div class="relative h-full bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-f1-red/50 hover:shadow-[0_0_30px_rgba(255,24,1,0.15)] hover:-translate-y-1">
       
-      <!-- Position -->
-      <div class="absolute top-4 left-4 text-6xl font-bold text-white/80">
-        {{ constructor.position }}
-      </div>
-    </div>
-
-    <!-- Contenu -->
-    <div class="p-6 space-y-4">
-      <!-- Nom de l'écurie -->
-      <div>
-        <h2 class="text-2xl font-bold tracking-tight" :style="{ color: constructorColors[constructor.Constructor.constructorId]?.primary || '#000' }">
-          {{ constructor.Constructor.name }}
-        </h2>
+      <!-- Background Gradient -->
+      <div class="absolute inset-0 opacity-10 transition-opacity duration-500 group-hover:opacity-20"
+           :style="`background: ${constructorColors[constructor.Constructor.constructorId]?.background || 'linear-gradient(135deg, #333 0%, #000 100%)'}`">
       </div>
 
-      <!-- Stats principales -->
-      <div class="grid grid-cols-3 gap-6">
-        <div class="text-center">
-          <div class="text-3xl font-bold" :style="{ color: constructorColors[constructor.Constructor.constructorId]?.primary || '#000' }">
-            {{ constructor.points }}
+      <!-- Content -->
+      <div class="relative z-10 p-6 flex flex-col h-full">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-start mb-6">
+          <div class="flex flex-col">
+            <span class="text-5xl font-display font-bold italic text-white/90 leading-none">{{ constructor.position }}</span>
+            <span class="text-xs font-bold tracking-widest text-white/40 uppercase mt-1">Pos</span>
           </div>
-          <div class="text-sm text-gray-600 uppercase">PTS</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold">{{ constructor.wins }}</div>
-          <div class="text-sm text-gray-600 uppercase">Wins</div>
-        </div>
-        <div class="text-center">
-          <div class="text-3xl font-bold">{{ podiums }}</div>
-          <div class="text-sm text-gray-600 uppercase">Podiums</div>
-        </div>
-      </div>
-
-      <!-- Barre de progression -->
-      <div class="w-full mt-4">
-        <ProgressBar 
-          :value="Number(constructor.points)" 
-          :max-value="maxPoints"
-          :color="constructorColors[constructor.Constructor.constructorId]?.primary"
-        />
-      </div>
-
-      <!-- Footer -->
-      <div class="flex justify-between items-center pt-2">
-        <div class="flex items-center gap-2">
           <img 
-            :src="`https://flagcdn.com/24x18/${getCountryCode(constructor.Constructor.nationality)}.png`" 
+            :src="`https://flagcdn.com/w40/${getCountryCode(constructor.Constructor.nationality)}.png`" 
             :alt="constructor.Constructor.nationality"
-            class="w-6 h-4 object-cover rounded"
+            class="h-5 w-auto rounded shadow-sm opacity-80"
           />
-          <span class="text-sm">{{ constructor.Constructor.nationality }}</span>
         </div>
-        <div class="text-sm text-gray-600">
-          {{ new Date().getFullYear() }}
+
+        <!-- Car/Logo Image Area -->
+        <div class="relative h-32 mb-4 flex items-center justify-center">
+           <img 
+            :src="constructorImage" 
+            :alt="constructor.Constructor.name"
+            class="max-h-full max-w-full object-contain filter drop-shadow-2xl transform transition-transform duration-500 group-hover:scale-110"
+            :class="{ 'opacity-0': loading, 'opacity-100': !loading }"
+            @error="handleImageError"
+            @load="loading = false"
+            loading="lazy"
+          />
+           <div v-if="loading || showPlaceholder" class="absolute inset-0 flex items-center justify-center">
+             <span class="loading loading-spinner text-f1-red"></span>
+          </div>
         </div>
+
+        <!-- Team Name -->
+        <div class="mt-auto">
+          <h2 class="text-2xl font-display font-bold italic text-white uppercase tracking-wide leading-tight mb-4 group-hover:text-f1-red transition-colors">
+            {{ constructor.Constructor.name }}
+          </h2>
+
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-4">
+            <div class="text-center">
+              <div class="text-xl font-bold text-f1-red">{{ constructor.points }}</div>
+              <div class="text-[10px] font-bold text-white/40 uppercase tracking-wider">PTS</div>
+            </div>
+            <div class="text-center border-l border-white/5">
+              <div class="text-xl font-bold text-white">{{ constructor.wins }}</div>
+              <div class="text-[10px] font-bold text-white/40 uppercase tracking-wider">Wins</div>
+            </div>
+            <div class="text-center border-l border-white/5">
+              <div class="text-xl font-bold text-white">{{ podiums }}</div>
+              <div class="text-[10px] font-bold text-white/40 uppercase tracking-wider">Podiums</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -115,12 +103,8 @@ const constructorColors = {
   'williams': { primary: '#005AFF', background: 'linear-gradient(135deg, #005AFF 0%, #003399 100%)' },
   'rb': { primary: '#1E3D9B', background: 'linear-gradient(135deg, #1E3D9B 0%, #0F1F4F 100%)' },
   'sauber': { primary: '#52E252', background: 'linear-gradient(135deg, #52E252 0%, #318631 100%)' },
-  'haas': { primary: '#2C2C2C', background: 'linear-gradient(135deg, #2C2C2C 0%, #111111 100%)' }
+  'haas': { primary: '#B6BABD', background: 'linear-gradient(135deg, #B6BABD 0%, #2C2C2C 100%)' }
 }
-
-const headerBackground = computed(() => ({
-  background: constructorColors[props.constructor.Constructor.constructorId]?.background || 'linear-gradient(135deg, #666666 0%, #333333 100%)'
-}))
 
 // Simulation du nombre de podiums (à remplacer par des données réelles)
 const podiums = computed(() => Math.floor(Number(props.constructor.wins) * 2.5))
@@ -139,13 +123,3 @@ const getCountryCode = (nationality: string) => {
   return countryMap[nationality]?.toLowerCase() || 'unknown'
 }
 </script>
-
-<style scoped>
-.card {
-  @apply relative rounded-xl border border-gray-100;
-}
-
-.card:hover {
-  @apply border-gray-300;
-}
-</style>

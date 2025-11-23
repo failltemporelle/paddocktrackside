@@ -1,166 +1,208 @@
 <template>
   <div class="container mx-auto p-4 md:p-6">
     <!-- HEADER -->
-    <div class="mb-6 md:mb-8">
+    <div class="mb-8 md:mb-12 animate-fade-in">
       <div class="flex items-center justify-between gap-3">
         <div>
-          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Dashboard • Statistiques F1</h1>
-          <p class="text-gray-500 text-sm md:text-base">Comparatifs pilotes & constructeurs — points, victoires, Top 5</p>
+          <h1 class="text-3xl md:text-5xl font-display font-bold italic text-white tracking-tight">
+            Dashboard <span class="text-f1-red">Statistiques</span>
+          </h1>
+          <p class="text-gray-400 text-sm md:text-base mt-2">Comparatifs pilotes & constructeurs — points, victoires, Top 5</p>
         </div>
-        <span v-if="!loading" class="inline-flex items-center gap-2 text-xs md:text-sm text-gray-500">
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span> Données à jour
+        <span v-if="!loading" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs md:text-sm text-emerald-400">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span> Données à jour
         </span>
       </div>
-      <div class="mt-3 h-1 w-28 bg-gradient-to-r from-red-600 to-red-400 rounded"></div>
+      <div class="mt-4 h-1 w-32 bg-gradient-to-r from-f1-red to-transparent rounded"></div>
     </div>
 
     <!-- KPI CARDS -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mb-6 md:mb-8">
-      <div class="card bg-base-100 shadow-sm ring-1 ring-black/5">
-        <div class="card-body p-4">
-          <div class="text-xs uppercase text-gray-500">Leader Pilotes</div>
-          <div class="mt-1 text-lg font-bold truncate">{{ kpi.leaderDriverName || '—' }}</div>
-          <div class="text-xs text-gray-500">Points: <b>{{ kpi.leaderDriverPoints ?? '—' }}</b></div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
+      <!-- KPI 1 -->
+      <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
+        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Leader Pilotes</div>
+        <div class="text-xl md:text-2xl font-display font-bold italic text-white truncate group-hover:text-f1-red transition-colors">
+          {{ kpi.leaderDriverName || '—' }}
+        </div>
+        <div class="text-sm text-gray-400 mt-1">
+          Points: <b class="text-white">{{ kpi.leaderDriverPoints ?? '—' }}</b>
         </div>
       </div>
-      <div class="card bg-base-100 shadow-sm ring-1 ring-black/5">
-        <div class="card-body p-4">
-          <div class="text-xs uppercase text-gray-500">Écart P1 → P2</div>
-          <div class="mt-1 text-lg font-bold">{{ kpi.driverGapP1P2 ?? '—' }}</div>
-          <div class="text-xs text-gray-500">points</div>
+
+      <!-- KPI 2 -->
+      <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
+        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Écart P1 → P2</div>
+        <div class="text-3xl md:text-4xl font-bold text-white group-hover:text-f1-red transition-colors">
+          {{ kpi.driverGapP1P2 ?? '—' }}
+        </div>
+        <div class="text-sm text-gray-400 mt-1">points d'avance</div>
+      </div>
+
+      <!-- KPI 3 -->
+      <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
+        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Leader Constructeurs</div>
+        <div class="text-xl md:text-2xl font-display font-bold italic text-white truncate group-hover:text-f1-red transition-colors">
+          {{ kpi.leaderConstructorName || '—' }}
+        </div>
+        <div class="text-sm text-gray-400 mt-1">
+          Points: <b class="text-white">{{ kpi.leaderConstructorPoints ?? '—' }}</b>
         </div>
       </div>
-      <div class="card bg-base-100 shadow-sm ring-1 ring-black/5">
-        <div class="card-body p-4">
-          <div class="text-xs uppercase text-gray-500">Leader Constructeurs</div>
-          <div class="mt-1 text-lg font-bold truncate">{{ kpi.leaderConstructorName || '—' }}</div>
-          <div class="text-xs text-gray-500">Points: <b>{{ kpi.leaderConstructorPoints ?? '—' }}</b></div>
+
+      <!-- KPI 4 -->
+      <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
+        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Écart C1 → C2</div>
+        <div class="text-3xl md:text-4xl font-bold text-white group-hover:text-f1-red transition-colors">
+          {{ kpi.constructorGapC1C2 ?? '—' }}
         </div>
-      </div>
-      <div class="card bg-base-100 shadow-sm ring-1 ring-black/5">
-        <div class="card-body p-4">
-          <div class="text-xs uppercase text-gray-500">Écart C1 → C2</div>
-          <div class="mt-1 text-lg font-bold">{{ kpi.constructorGapC1C2 ?? '—' }}</div>
-          <div class="text-xs text-gray-500">points</div>
-        </div>
+        <div class="text-sm text-gray-400 mt-1">points d'avance</div>
       </div>
     </div>
 
     <!-- CONTENT GRID -->
-    <div class="grid gap-6 md:gap-8">
+    <div class="grid gap-8 md:gap-12">
       <!-- DRIVERS POINTS -->
-      <div class="card bg-base-100 shadow-xl ring-1 ring-black/5">
-        <div class="card-body">
-          <div class="flex items-center justify-between gap-3 mb-2">
-            <h2 class="card-title">Points des pilotes</h2>
-            <span class="badge badge-ghost">Total pilotes: {{ drivers.length || 0 }}</span>
-          </div>
+      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
+            <span class="w-1 h-6 bg-f1-red rounded-full"></span>
+            Points des pilotes
+          </h2>
+          <span class="px-3 py-1 rounded-full bg-white/5 text-xs font-bold text-gray-400 border border-white/10">
+            Total: {{ drivers.length || 0 }}
+          </span>
+        </div>
+        <div class="h-[400px] w-full">
           <BarChart
             v-if="!loading"
             :labels="driverLabels"
             :datasets="driverDatasets"
           />
-          <DashboardSkeleton v-else />
+          <div v-else class="h-full flex items-center justify-center">
+            <span class="loading loading-spinner loading-lg text-f1-red"></span>
+          </div>
         </div>
       </div>
 
       <!-- CONSTRUCTORS POINTS -->
-      <div class="card bg-base-100 shadow-xl ring-1 ring-black/5">
-        <div class="card-body">
-          <div class="flex items-center justify-between gap-3 mb-2">
-            <h2 class="card-title">Points des constructeurs</h2>
-            <span class="badge badge-ghost">Écuries: {{ constructors.length || 0 }}</span>
-          </div>
+      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
+            <span class="w-1 h-6 bg-f1-red rounded-full"></span>
+            Points des constructeurs
+          </h2>
+          <span class="px-3 py-1 rounded-full bg-white/5 text-xs font-bold text-gray-400 border border-white/10">
+            Écuries: {{ constructors.length || 0 }}
+          </span>
+        </div>
+        <div class="h-[400px] w-full">
           <BarChart
             v-if="!loading"
             :labels="constructorLabels"
             :datasets="constructorDatasets"
           />
-          <DashboardSkeleton v-else />
+          <div v-else class="h-full flex items-center justify-center">
+            <span class="loading loading-spinner loading-lg text-f1-red"></span>
+          </div>
         </div>
       </div>
 
       <!-- TABLES -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- TOP DRIVERS -->
-        <div class="card bg-base-100 shadow-xl ring-1 ring-black/5">
-          <div class="card-body">
-            <h2 class="card-title mb-2">Top 5 Pilotes</h2>
-            <div class="overflow-x-auto">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Pilote</th>
-                    <th class="text-right">Points</th>
-                    <th class="text-right">Victoires</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="driver in topDrivers" :key="driver.position">
-                    <td>{{ driver.position }}</td>
-                    <td class="whitespace-nowrap">
+        <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden">
+          <div class="p-6 border-b border-white/5">
+            <h2 class="text-xl font-display font-bold italic text-white">Top 5 Pilotes</h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-white/5 text-gray-400 text-xs uppercase tracking-wider font-medium">
+                <tr>
+                  <th class="px-6 py-4">#</th>
+                  <th class="px-6 py-4">Pilote</th>
+                  <th class="px-6 py-4 text-right">Points</th>
+                  <th class="px-6 py-4 text-right">Victoires</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/5">
+                <tr v-for="driver in topDrivers" :key="driver.position" class="hover:bg-white/5 transition-colors group">
+                  <td class="px-6 py-4">
+                    <span class="font-display font-bold italic text-lg" :class="getPosColor(driver.position)">{{ driver.position }}</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="font-bold text-white group-hover:text-f1-red transition-colors">
                       {{ driver.Driver.givenName }} {{ driver.Driver.familyName }}
-                      <div class="text-xs text-gray-500">{{ driver.Constructors?.[0]?.name || '—' }}</div>
-                    </td>
-                    <td class="text-right font-semibold">{{ driver.points }}</td>
-                    <td class="text-right">{{ driver.wins }}</td>
-                  </tr>
-                  <tr v-if="!topDrivers.length">
-                    <td colspan="4" class="text-center text-gray-500">Aucune donnée</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                    </div>
+                    <div class="text-xs text-gray-500">{{ driver.Constructors?.[0]?.name || '—' }}</div>
+                  </td>
+                  <td class="px-6 py-4 text-right font-bold text-white">{{ driver.points }}</td>
+                  <td class="px-6 py-4 text-right text-gray-400">{{ driver.wins }}</td>
+                </tr>
+                <tr v-if="!topDrivers.length">
+                  <td colspan="4" class="px-6 py-8 text-center text-gray-500">Aucune donnée</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
         <!-- TOP CONSTRUCTORS -->
-        <div class="card bg-base-100 shadow-xl ring-1 ring-black/5">
-          <div class="card-body">
-            <h2 class="card-title mb-2">Top 5 Constructeurs</h2>
-            <div class="overflow-x-auto">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Écurie</th>
-                    <th class="text-right">Points</th>
-                    <th class="text-right">Victoires</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="constructor in topConstructors" :key="constructor.position">
-                    <td>{{ constructor.position }}</td>
-                    <td class="whitespace-nowrap">
+        <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden">
+          <div class="p-6 border-b border-white/5">
+            <h2 class="text-xl font-display font-bold italic text-white">Top 5 Constructeurs</h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead class="bg-white/5 text-gray-400 text-xs uppercase tracking-wider font-medium">
+                <tr>
+                  <th class="px-6 py-4">#</th>
+                  <th class="px-6 py-4">Écurie</th>
+                  <th class="px-6 py-4 text-right">Points</th>
+                  <th class="px-6 py-4 text-right">Victoires</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-white/5">
+                <tr v-for="constructor in topConstructors" :key="constructor.position" class="hover:bg-white/5 transition-colors group">
+                  <td class="px-6 py-4">
+                    <span class="font-display font-bold italic text-lg" :class="getPosColor(constructor.position)">{{ constructor.position }}</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="font-bold text-white group-hover:text-f1-red transition-colors">
                       {{ constructor.Constructor.name }}
-                    </td>
-                    <td class="text-right font-semibold">{{ constructor.points }}</td>
-                    <td class="text-right">{{ constructor.wins }}</td>
-                  </tr>
-                  <tr v-if="!topConstructors.length">
-                    <td colspan="4" class="text-center text-gray-500">Aucune donnée</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-right font-bold text-white">{{ constructor.points }}</td>
+                  <td class="px-6 py-4 text-right text-gray-400">{{ constructor.wins }}</td>
+                </tr>
+                <tr v-if="!topConstructors.length">
+                  <td colspan="4" class="px-6 py-8 text-center text-gray-500">Aucune donnée</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
       <!-- WINS -->
-      <div class="card bg-base-100 shadow-xl ring-1 ring-black/5">
-        <div class="card-body">
-          <div class="flex items-center justify-between gap-3 mb-2">
-            <h2 class="card-title">Victoires des pilotes</h2>
-            <span v-if="kpi.maxWins !== null" class="badge badge-outline">Max: {{ kpi.maxWins }}</span>
-          </div>
+      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8">
+        <div class="flex items-center justify-between gap-3 mb-6">
+          <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
+            <span class="w-1 h-6 bg-f1-red rounded-full"></span>
+            Victoires des pilotes
+          </h2>
+          <span v-if="kpi.maxWins !== null" class="px-3 py-1 rounded-full bg-f1-red/10 text-xs font-bold text-f1-red border border-f1-red/20">
+            Max: {{ kpi.maxWins }}
+          </span>
+        </div>
+        <div class="h-[400px] w-full">
           <BarChart
             v-if="!loading"
             :labels="driverLabels"
             :datasets="driverWinsDatasets"
           />
-          <DashboardSkeleton v-else />
+          <div v-else class="h-full flex items-center justify-center">
+            <span class="loading loading-spinner loading-lg text-f1-red"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -182,52 +224,36 @@ const driverWins   = computed(() => drivers.value.map(d => Number(d.wins)))
 const constructorLabels = computed(() => constructors.value.map(c => c.Constructor.name))
 const constructorPoints = computed(() => constructors.value.map(c => Number(c.points)))
 
+// Chart Colors
 const driverDatasets = computed(() => [{
   label: 'Points',
   data: driverPoints.value,
-  backgroundColor: (ctx: any) => {
-    const chart = ctx.chart
-    const { ctx: c, chartArea } = chart
-    if (!chartArea) return '#22c55e'
-    const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
-    gradient.addColorStop(0, '#16a34a')
-    gradient.addColorStop(1, '#22c55e')
-    return gradient
-  },
-  borderRadius: 6,
-  borderWidth: 0
+  backgroundColor: '#FF1801',
+  borderRadius: 4,
+  borderWidth: 0,
+  barThickness: 'flex',
+  maxBarThickness: 30
 }])
 
 const constructorDatasets = computed(() => [{
   label: 'Points',
   data: constructorPoints.value,
-  backgroundColor: (ctx: any) => {
-    const chart = ctx.chart
-    const { ctx: c, chartArea } = chart
-    if (!chartArea) return '#ef4444'
-    const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
-    gradient.addColorStop(0, '#b91c1c')
-    gradient.addColorStop(1, '#ef4444')
-    return gradient
-  },
-  borderRadius: 6,
-  borderWidth: 0
+  backgroundColor: '#38383F',
+  hoverBackgroundColor: '#FF1801',
+  borderRadius: 4,
+  borderWidth: 0,
+  barThickness: 'flex',
+  maxBarThickness: 40
 }])
 
 const driverWinsDatasets = computed(() => [{
   label: 'Victoires',
   data: driverWins.value,
-  backgroundColor: (ctx: any) => {
-    const chart = ctx.chart
-    const { ctx: c, chartArea } = chart
-    if (!chartArea) return '#fb923c'
-    const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top)
-    gradient.addColorStop(0, '#c2410c')
-    gradient.addColorStop(1, '#fb923c')
-    return gradient
-  },
-  borderRadius: 6,
-  borderWidth: 0
+  backgroundColor: '#FFD700', // Gold for wins
+  borderRadius: 4,
+  borderWidth: 0,
+  barThickness: 'flex',
+  maxBarThickness: 30
 }])
 
 const topDrivers = computed(() => drivers.value.slice(0, 5))
@@ -243,6 +269,15 @@ const kpi = reactive({
   constructorGapC1C2: null as number | null,
   maxWins: null as number | null
 })
+
+const getPosColor = (pos: string) => {
+  switch(pos) {
+    case '1': return 'text-yellow-400 text-2xl'
+    case '2': return 'text-gray-300 text-xl'
+    case '3': return 'text-amber-600 text-xl'
+    default: return 'text-white/50'
+  }
+}
 
 onMounted(async () => {
   try {
@@ -278,10 +313,6 @@ onMounted(async () => {
   }
 })
 </script>
-
-
-
-
 
 <style>
 /* Tables: alignements cohérents sur mobile aussi */

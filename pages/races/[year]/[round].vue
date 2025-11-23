@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div v-if="loading" class="flex justify-center p-12">
-      <span class="loading loading-spinner loading-lg"></span>
+  <div class="min-h-screen bg-f1-black">
+    <div v-if="loading" class="flex justify-center items-center min-h-[50vh]">
+      <span class="loading loading-spinner loading-lg text-f1-red"></span>
     </div>
     
     <template v-else-if="race">
@@ -16,20 +16,24 @@
       />
 
       <!-- Main Content -->
-      <div class="container mx-auto p-4 space-y-8 -mt-8">
+      <div class="container mx-auto px-4 py-8 space-y-12 -mt-20 relative z-10">
         <RaceInfo :circuit="race.Circuit" />
-        <RaceResults 
-          :results="race.Results"
-          :qualifying-results="qualifyingResults"
-          :sprint-results="sprintResults"
-        />
+        
+        <div class="space-y-6">
+          <RaceResults 
+            :results="race.Results"
+            :qualifying-results="qualifyingResults"
+            :sprint-results="sprintResults"
+          />
+        </div>
       </div>
     </template>
     
-    <div v-else class="container mx-auto p-4">
-      <div class="text-center py-12">
-        <h2 class="text-2xl font-bold mb-4">Course non trouvée</h2>
-        <NuxtLink to="/races" class="btn btn-primary">
+    <div v-else class="container mx-auto p-4 flex flex-col items-center justify-center min-h-[50vh]">
+      <div class="text-center py-12 space-y-4">
+        <h2 class="text-3xl font-bold text-white">Course non trouvée</h2>
+        <p class="text-gray-400">Les données pour cette course ne sont pas disponibles.</p>
+        <NuxtLink to="/races" class="btn bg-f1-red hover:bg-red-600 text-white border-none">
           Retour au calendrier
         </NuxtLink>
       </div>

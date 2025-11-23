@@ -1,46 +1,56 @@
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Circuit Layout -->
-    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body">
-        <h2 class="card-title">Circuit Layout</h2>
-        <CircuitLayout :circuit="circuit" />
+  <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden">
+    <div class="p-6 border-b border-white/5 flex items-center justify-between">
+      <h2 class="text-xl font-display font-bold italic text-white flex items-center gap-3">
+        <span class="w-1 h-6 bg-f1-red rounded-full"></span>
+        Circuit Information
+      </h2>
+      <div class="flex gap-2">
+        <a 
+          :href="circuit.url" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="btn btn-sm bg-white/5 hover:bg-white/10 text-white border-none gap-2 rounded-lg"
+          title="Détails du circuit"
+        >
+          <ArrowTopRightOnSquareIcon class="w-4 h-4" />
+          <span class="hidden sm:inline">Détails</span>
+        </a>
       </div>
     </div>
 
-    <!-- Circuit Details -->
-    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body space-y-6">
-        <h2 class="card-title">Circuit Information</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3">
+      <!-- Circuit Layout (Large) -->
+      <div class="lg:col-span-2 p-6 border-b lg:border-b-0 lg:border-r border-white/5 flex items-center justify-center bg-black/20">
+        <CircuitLayout :circuit="circuit" class="max-h-[300px] w-full" />
+      </div>
+
+      <!-- Details (Compact Sidebar) -->
+      <div class="p-6 space-y-6">
+        <div>
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Nom du Circuit</div>
+          <div class="text-lg font-bold text-white leading-tight">{{ circuit.circuitName }}</div>
+        </div>
         
-        <div class="stats shadow">
-          <div class="stat">
-            <div class="stat-title">Circuit</div>
-            <div class="stat-value text-lg">{{ circuit.circuitName }}</div>
-          </div>
-          
-          <div class="stat">
-            <div class="stat-title">Location</div>
-            <div class="stat-value text-lg">{{ circuit.Location.locality }}</div>
-            <div class="stat-desc">{{ circuit.Location.country }}</div>
+        <div>
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Localisation</div>
+          <div class="flex items-center gap-2 text-white">
+            <span>📍</span>
+            <span class="font-medium">{{ circuit.Location.locality }}, {{ circuit.Location.country }}</span>
           </div>
         </div>
 
-        <div class="flex flex-wrap gap-4">
-          <a 
-            :href="circuit.url" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="btn btn-primary"
-          >
-            Circuit Details
-            <ArrowTopRightOnSquareIcon class="w-5 h-5" />
-          </a>
-          
-          <button class="btn btn-outline gap-2">
-            <ShareIcon class="w-5 h-5" />
-            Share
-          </button>
+        <div class="pt-4 border-t border-white/5">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Latitude</div>
+              <div class="text-sm font-mono text-gray-300">{{ circuit.Location.lat }}</div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Longitude</div>
+              <div class="text-sm font-mono text-gray-300">{{ circuit.Location.long }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -48,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowTopRightOnSquareIcon, ShareIcon } from '@heroicons/vue/24/outline'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/vue/24/outline'
 import type { Race } from '~/types/f1'
 
 defineProps<{
