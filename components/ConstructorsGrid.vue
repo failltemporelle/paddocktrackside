@@ -3,7 +3,7 @@
     <ConstructorCard 
       v-for="constructor in constructors" 
       :key="constructor.position" 
-      :constructor="constructor"
+      :team="constructor"
       :max-points="maxPoints"
     />
   </div>

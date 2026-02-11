@@ -16,6 +16,14 @@
       <div class="mt-4 h-1 w-32 bg-gradient-to-r from-f1-red to-transparent rounded"></div>
     </div>
 
+    <!-- YEAR SELECTOR -->
+    <div class="flex justify-end mb-6">
+      <YearSelector 
+        :year="selectedYear" 
+        @update:year="updateYear"
+      />
+    </div>
+
     <!-- KPI CARDS -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
       <!-- KPI 1 -->
@@ -205,17 +213,43 @@
           </div>
         </div>
       </div>
+
+      <!-- SEASON PROGRESS -->
+      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden">
+        <div class="p-6 border-b border-white/5">
+          <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
+             <span class="w-1 h-6 bg-f1-red rounded-full"></span>
+             Résultats par course
+          </h2>
+        </div>
+        <div class="p-0">
+          <SeasonProgressTable 
+            v-if="!loading && seasonResults.length" 
+            :races="seasonResults" 
+            :standings="drivers"
+          />
+          <div v-else-if="loading" class="p-10 flex justify-center">
+            <span class="loading loading-spinner text-f1-red"></span>
+          </div>
+          <div v-else class="p-10 text-center text-gray-500">
+            Aucune donnée de course disponible
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted } from 'vue'
-const { fetchDriverStandings, fetchConstructorStandings } = useJolpicaApi()
+import { ref, computed, reactive, onMounted, watch } from 'vue'
+const { fetchDriverStandings, fetchConstructorStandings, fetchSeasonResults } = useJolpicaApi()
+
+const selectedYear = ref(new Date().getFullYear())
 
 const loading = ref(true)
 const drivers = ref<any[]>([])
 const constructors = ref<any[]>([])
+const seasonResults = ref<any[]>([])
 
 const driverLabels = computed(() => drivers.value.map(d => `${d.Driver.givenName} ${d.Driver.familyName}`))
 const driverPoints = computed(() => drivers.value.map(d => Number(d.points)))
@@ -279,14 +313,23 @@ const getPosColor = (pos: string) => {
   }
 }
 
-onMounted(async () => {
+const updateYear = (year: number) => {
+  selectedYear.value = year
+}
+
+const loadData = async () => {
+  loading.value = true
   try {
-    const [driversData, constructorsData] = await Promise.all([
-      fetchDriverStandings(),
-      fetchConstructorStandings()
+    const [driversData, constructorsData, seasonData] = await Promise.all([
+      fetchDriverStandings(selectedYear.value),
+      fetchConstructorStandings(selectedYear.value),
+      fetchSeasonResults(selectedYear.value)
     ])
     drivers.value = driversData || []
     constructors.value = constructorsData || []
+    seasonResults.value = seasonData || []
+    console.log('Season Results Length:', seasonResults.value.length)
+    console.log('Drivers Length:', drivers.value.length)
 
     // KPIs pilotes
     if (drivers.value.length) {
@@ -311,7 +354,13 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
+}
+
+watch(selectedYear, () => {
+  loadData()
 })
+
+onMounted(loadData)
 </script>
 
 <style>

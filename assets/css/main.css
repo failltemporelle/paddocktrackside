@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap');
 
+@import './3d-card.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +14,12 @@
     @apply bg-f1-light font-sans antialiased text-f1-black;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display font-bold tracking-tight text-f1-black;
   }
 
@@ -110,7 +116,7 @@
   .card figure img {
     @apply max-h-48 object-contain;
   }
-  
+
   .stats {
     @apply grid grid-cols-1 gap-2;
   }

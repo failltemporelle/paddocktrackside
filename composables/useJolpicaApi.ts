@@ -11,10 +11,10 @@ export const useJolpicaApi = () => {
         return []
       }
       const data = await response.json()
-      return data.MRData.RaceTable?.Races || 
-             data.MRData.StandingsTable?.StandingsLists[0]?.DriverStandings || 
-             data.MRData.StandingsTable?.StandingsLists[0]?.ConstructorStandings || 
-             []
+      return data.MRData.RaceTable?.Races ||
+        data.MRData.StandingsTable?.StandingsLists[0]?.DriverStandings ||
+        data.MRData.StandingsTable?.StandingsLists[0]?.ConstructorStandings ||
+        []
     } catch (error) {
       if (!ignoreErrors) {
         console.error(`Erreur lors de la récupération des données: ${endpoint}`, error)
@@ -51,6 +51,11 @@ export const useJolpicaApi = () => {
     return fetchData<Race>(`${year}/${round}/sprint-shootout.json`, true)
   }
 
+  const fetchSeasonResults = (year = currentYear) => {
+    // limit=100 ensures we get all races of the season (usually ~24)
+    return fetchData<Race>(`${year}/results.json?limit=100`)
+  }
+
   return {
     fetchDriverStandings,
     fetchConstructorStandings,
@@ -58,6 +63,7 @@ export const useJolpicaApi = () => {
     fetchRaceResults,
     fetchQualifyingResults,
     fetchSprintResults,
-    fetchSprintShootoutResults
+    fetchSprintShootoutResults,
+    fetchSeasonResults
   }
 }
