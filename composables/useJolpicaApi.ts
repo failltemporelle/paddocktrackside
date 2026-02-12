@@ -51,9 +51,41 @@ export const useJolpicaApi = () => {
     return fetchData<Race>(`${year}/${round}/sprint-shootout.json`, true)
   }
 
-  const fetchSeasonResults = (year = currentYear) => {
-    // limit=100 ensures we get all races of the season (usually ~24)
-    return fetchData<Race>(`${year}/results.json?limit=100`)
+  const fetchSeasonResults = async (year = currentYear) => {
+    let offset = 0
+    const limit = 100
+    let allRaces: Race[] = []
+    let total = 0
+
+    do {
+      try {
+        const response = await fetch(`${config.public.apiBase}/${year}/results.json?limit=${limit}&offset=${offset}`)
+        if (!response.ok) break
+
+        const data = await response.json()
+        const races = data.MRData.RaceTable?.Races || []
+
+        // Handling potential race split across pages
+        races.forEach((race: Race) => {
+          const existingRace = allRaces.find(r => r.round === race.round)
+          if (existingRace) {
+            if (existingRace.Results && race.Results) {
+              existingRace.Results.push(...race.Results)
+            }
+          } else {
+            allRaces.push(race)
+          }
+        })
+
+        total = parseInt(data.MRData.total || '0')
+        offset += limit
+      } catch (e) {
+        console.error('Erreur fetching season results page:', e)
+        break
+      }
+    } while (offset < total)
+
+    return allRaces
   }
 
   return {
