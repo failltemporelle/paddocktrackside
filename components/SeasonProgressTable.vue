@@ -13,7 +13,12 @@
             class="p-2 w-12 border-b border-white/5 whitespace-nowrap min-w-[50px]"
             :title="race.raceName"
           >
-            {{ getCountryCode(race.Circuit.Location.country) }}
+            <img 
+              :src="`https://flagcdn.com/w40/${getCountryCode(race.Circuit.Location.country)}.png`" 
+              :alt="race.Circuit.Location.country"
+              class="h-4 w-6 object-cover mx-auto rounded shadow-sm"
+              :title="race.Circuit.Location.country"
+            />
           </th>
           <th class="p-3 sticky right-0 z-40 bg-[#1e1e24] border-l border-white/10 font-bold text-white w-20 shadow-[-2px_0_5px_rgba(0,0,0,0.2)]">
             Pts
@@ -78,13 +83,13 @@ const props = defineProps<{
 // Map country names to ISO codes (simplified) for display
 const getCountryCode = (country: string) => {
   const map: Record<string, string> = {
-    'Bahrain': 'BHR', 'Saudi Arabia': 'SAU', 'Australia': 'AUS', 'Azerbaijan': 'AZE', 'United States': 'USA', 'USA': 'USA',
-    'Monaco': 'MCO', 'Spain': 'ESP', 'Canada': 'CAN', 'Austria': 'AUT', 'UK': 'GBR', 'Great Britain': 'GBR',
-    'Hungary': 'HUN', 'Belgium': 'BEL', 'Netherlands': 'NLD', 'Italy': 'ITA', 'Singapore': 'SGP',
-    'Japan': 'JPN', 'Qatar': 'QAT', 'Mexico': 'MEX', 'Brazil': 'BRA', 'UAE': 'UAE', 'Abu Dhabi': 'UAE',
-    'China': 'CHN', 'France': 'FRA', 'Portugal': 'PRT', 'Turkey': 'TUR', 'Russia': 'RUS', 'Germany': 'DEU'
+    'Bahrain': 'bh', 'Saudi Arabia': 'sa', 'Australia': 'au', 'Azerbaijan': 'az', 'United States': 'us', 'USA': 'us',
+    'Monaco': 'mc', 'Spain': 'es', 'Canada': 'ca', 'Austria': 'at', 'UK': 'gb', 'Great Britain': 'gb',
+    'Hungary': 'hu', 'Belgium': 'be', 'Netherlands': 'nl', 'Italy': 'it', 'Singapore': 'sg',
+    'Japan': 'jp', 'Qatar': 'qa', 'Mexico': 'mx', 'Brazil': 'br', 'UAE': 'ae', 'Abu Dhabi': 'ae',
+    'China': 'cn', 'France': 'fr', 'Portugal': 'pt', 'Turkey': 'tr', 'Russia': 'ru', 'Germany': 'de'
   }
-  return map[country] || country.substring(0, 3).toUpperCase()
+  return map[country] || 'xx' // 'xx' as fallback or maybe handle differently? flagcdn might restrict 'xx'
 }
 
 // Process data to organize by driver

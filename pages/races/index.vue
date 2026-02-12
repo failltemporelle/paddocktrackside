@@ -1,6 +1,12 @@
 <template>
   <div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-6">Calendrier F1 {{ currentYear }}</h1>
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-bold">Calendrier F1 {{ selectedYear }}</h1>
+      <YearSelector 
+        :year="selectedYear" 
+        @update:year="updateYear"
+      />
+    </div>
     
     <div v-if="loading" class="flex justify-center">
       <span class="loading loading-spinner loading-lg"></span>
@@ -26,18 +32,27 @@ import type { Race } from '~/types/f1'
 const loading = ref(true)
 const error = ref<string | null>(null)
 const races = ref<Race[]>([])
-const currentYear = new Date().getFullYear()
+const selectedYear = ref(new Date().getFullYear())
 
-const { fetchCurrentSeasonRaces } = useRaceData()
+const { fetchRaces } = useJolpicaApi()
 
-onMounted(async () => {
+const loadRaces = async () => {
+  loading.value = true
+  error.value = null
   try {
-    races.value = await fetchCurrentSeasonRaces()
+    races.value = await fetchRaces(selectedYear.value)
   } catch (e) {
     error.value = "Une erreur s'est produite lors du chargement des courses"
     console.error('Error loading races:', e)
   } finally {
     loading.value = false
   }
-})
+}
+
+const updateYear = (year: number) => {
+  selectedYear.value = year
+  loadRaces()
+}
+
+onMounted(loadRaces)
 </script>

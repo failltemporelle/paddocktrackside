@@ -221,18 +221,21 @@
              <span class="w-1 h-6 bg-f1-red rounded-full"></span>
              Résultats par course
           </h2>
+          <div class="flex items-center gap-2">
+            <YearSelector :year="historyYear" @update:year="updateHistoryYear" class="!mb-0 scale-90 origin-right" />
+          </div>
         </div>
         <div class="p-0">
           <SeasonProgressTable 
-            v-if="!loading && seasonResults.length" 
-            :races="seasonResults" 
-            :standings="drivers"
+            v-if="!historyLoading && historyResults.length" 
+            :races="historyResults" 
+            :standings="historyDrivers"
           />
-          <div v-else-if="loading" class="p-10 flex justify-center">
+          <div v-else-if="historyLoading" class="p-10 flex justify-center">
             <span class="loading loading-spinner text-f1-red"></span>
           </div>
           <div v-else class="p-10 text-center text-gray-500">
-            Aucune donnée de course disponible
+            Aucune donnée de course disponible pour {{ historyYear }}
           </div>
         </div>
       </div>
@@ -246,10 +249,18 @@ const { fetchDriverStandings, fetchConstructorStandings, fetchSeasonResults } = 
 
 const selectedYear = ref(new Date().getFullYear())
 
+// Global loading & data
 const loading = ref(true)
 const drivers = ref<any[]>([])
 const constructors = ref<any[]>([])
-const seasonResults = ref<any[]>([])
+// REMOVED seasonResults from global scope, moved to history scope
+// const seasonResults = ref<any[]>([])
+
+// History specific state
+const historyYear = ref(selectedYear.value)
+const historyLoading = ref(true)
+const historyResults = ref<any[]>([])
+const historyDrivers = ref<any[]>([])
 
 const driverLabels = computed(() => drivers.value.map(d => `${d.Driver.givenName} ${d.Driver.familyName}`))
 const driverPoints = computed(() => drivers.value.map(d => Number(d.points)))
@@ -315,21 +326,44 @@ const getPosColor = (pos: string) => {
 
 const updateYear = (year: number) => {
   selectedYear.value = year
+  // Sync history year only if it was same as previous selected year or just force sync?
+  // Let's force sync for better UX when changing main dashboard year
+  historyYear.value = year
+}
+
+const updateHistoryYear = (year: number) => {
+  historyYear.value = year
+}
+
+const loadHistoryData = async () => {
+  historyLoading.value = true
+  try {
+    const [historyDriversData, historySeasonData] = await Promise.all([
+      fetchDriverStandings(historyYear.value),
+      fetchSeasonResults(historyYear.value)
+    ])
+    historyDrivers.value = historyDriversData || []
+    historyResults.value = historySeasonData || []
+  } catch (error) {
+    console.error('Erreur chargement historique:', error)
+  } finally {
+    historyLoading.value = false
+  }
 }
 
 const loadData = async () => {
   loading.value = true
   try {
-    const [driversData, constructorsData, seasonData] = await Promise.all([
+    // We don't fetch seasonResults here anymore for the global year unless needed for something else?
+    // Actually the previous implementation fetched seasonResults for the main year.
+    // Let's keep fetching drivers/constructors for the main dashboard.
+    const [driversData, constructorsData] = await Promise.all([
       fetchDriverStandings(selectedYear.value),
-      fetchConstructorStandings(selectedYear.value),
-      fetchSeasonResults(selectedYear.value)
+      fetchConstructorStandings(selectedYear.value)
     ])
     drivers.value = driversData || []
     constructors.value = constructorsData || []
-    seasonResults.value = seasonData || []
-    console.log('Season Results Length:', seasonResults.value.length)
-    console.log('Drivers Length:', drivers.value.length)
+
 
     // KPIs pilotes
     if (drivers.value.length) {
@@ -360,7 +394,14 @@ watch(selectedYear, () => {
   loadData()
 })
 
-onMounted(loadData)
+watch(historyYear, () => {
+  loadHistoryData()
+})
+
+onMounted(() => {
+  loadData()
+  loadHistoryData()
+})
 </script>
 
 <style>
