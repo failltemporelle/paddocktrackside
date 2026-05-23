@@ -7,8 +7,9 @@ export const useJolpicaApi = () => {
   const fetchData = async <T>(endpoint: string, ignoreErrors = false): Promise<T[]> => {
     try {
       const response = await fetch(`${config.public.apiBase}/${endpoint}`)
-      if (!response.ok && ignoreErrors) {
-        return []
+      if (!response.ok) {
+        if (ignoreErrors) return []
+        throw new Error(`HTTP ${response.status}: ${endpoint}`)
       }
       const data = await response.json()
       return data.MRData.RaceTable?.Races ||

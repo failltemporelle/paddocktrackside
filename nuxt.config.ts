@@ -6,7 +6,13 @@ export default defineNuxtConfig({
   ssr: false, // Disable SSR since we're using Firebase Auth
   runtimeConfig: {
     public: {
-      apiBase: 'https://api.jolpi.ca/ergast/f1'
+      apiBase: 'https://api.jolpi.ca/ergast/f1',
+      firebaseApiKey: '',
+      firebaseAuthDomain: '',
+      firebaseProjectId: '',
+      firebaseStorageBucket: '',
+      firebaseMessagingSenderId: '',
+      firebaseAppId: ''
     }
   },
   app: {

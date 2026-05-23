@@ -21,7 +21,7 @@ export const driverImageMap: Record<string, string> = {
   'gasly': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/gasly.jpg.img.1920.medium.jpg/1708592080663.jpg',
   'bearman': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/bearman.jpg.img.1920.medium.jpg/1709922871091.jpg',
   'lawson': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/lawson.jpg.img.1920.medium.jpg/1708592142037.jpg',
-  'doohan': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/dohan.jpg.img.1920.medium.jpg/1708592046673.jpg',
+  'doohan': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/doohan.jpg.img.1920.medium.jpg/1708592046673.jpg',
   'hadjar': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/hadjar.jpg.img.1920.medium.jpg/1708592046673.jpg',
   'bortoleto': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/bortoleto.jpg.img.1920.medium.jpg/1708592046673.jpg',
   'colapinto': 'https://media.formula1.com/content/dam/fom-website/drivers/2025Drivers/colapinto.jpg.img.1920.medium.jpg/1708592142037.jpg', 

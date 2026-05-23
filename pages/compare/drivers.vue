@@ -157,16 +157,9 @@ onMounted(async () => {
   }
 })
 
-// Fonctions utilitaires pour les statistiques
-const averageQualifyingPosition = (driver: Driver) => {
-  // À implémenter avec les données réelles
-  return Math.round(Math.random() * 10)
-}
+const averageQualifyingPosition = (_driver: Driver) => 'N/A'
 
-const averageRacePosition = (driver: Driver) => {
-  // À implémenter avec les données réelles
-  return Math.round(Math.random() * 10)
-}
+const averageRacePosition = (_driver: Driver) => 'N/A'
 
 // Observer les changements de sélection
 watch([selectedDriver1, selectedDriver2, startYear, endYear], async ([newDriver1, newDriver2]) => {
