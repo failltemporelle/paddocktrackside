@@ -2,12 +2,12 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAl3jfqyotr16bUuD_M1Kys1jy7JvHzVDA",
-  authDomain: "paddocktrackside.firebaseapp.com",
-  projectId: "paddocktrackside",
-  storageBucket: "paddocktrackside.appspot.com",
-  messagingSenderId: "236905041011",
-  appId: "1:236905041011:web:1cb0de0b7af73b0be3ae06"
+  apiKey: import.meta.env.NUXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: import.meta.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.NUXT_PUBLIC_FIREBASE_APP_ID
 }
 
 export const initFirebase = () => {

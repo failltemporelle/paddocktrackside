@@ -8,7 +8,6 @@
             <p class="text-zinc-400">Données en direct via l'API Jolpica — saison en cours</p>
           </div>
           <div class="flex items-center gap-2 text-zinc-300">
-            <Icon name="mdi:car-sports" class="w-6 h-6" />
             <span v-if="season">{{ season }}</span>
             <span v-if="updatedAt" class="text-xs text-zinc-500">MAJ {{ updatedAt }}</span>
           </div>

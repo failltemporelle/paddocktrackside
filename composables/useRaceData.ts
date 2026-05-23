@@ -25,7 +25,7 @@ export const useRaceData = () => {
 
   const formatTime = (time: string) => {
     if (!time) return 'Heure à confirmer'
-    return new Date(`2024-01-01T${time}`).toLocaleTimeString('fr-FR', {
+    return new Date(`1970-01-01T${time}`).toLocaleTimeString('fr-FR', {
       hour: '2-digit',
       minute: '2-digit'
     })

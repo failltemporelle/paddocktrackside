@@ -42,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Race } from '~/types/f1'
+import type { Race, QualifyingResult, SprintResult } from '~/types/f1'
 
 const route = useRoute()
 const { generateMeta } = useSeo()
