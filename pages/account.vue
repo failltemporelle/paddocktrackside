@@ -86,8 +86,6 @@
 </template>
 
 <script setup lang="ts">
-import { updateProfile as updateFirebaseProfile, updatePassword, updateEmail } from 'firebase/auth'
-
 const { user } = useAuth()
 const router = useRouter()
 
@@ -96,52 +94,11 @@ const updating = ref(false)
 const error = ref<string | null>(null)
 const success = ref<string | null>(null)
 
-const displayName = ref(user.value?.displayName || '')
-const email = ref(user.value?.email || '')
+const displayName = ref('')
+const email = ref('')
 const newPassword = ref('')
 
 const updateProfile = async () => {
-  if (!user.value) return
-
-  updating.value = true
-  error.value = null
-  success.value = null
-
-  try {
-    const updates = []
-
-    // Update display name if changed
-    if (displayName.value !== user.value.displayName) {
-      updates.push(updateFirebaseProfile(user.value, {
-        displayName: displayName.value
-      }))
-    }
-
-    // Update email if changed
-    if (email.value !== user.value.email) {
-      updates.push(updateEmail(user.value, email.value))
-    }
-
-    // Update password if provided
-    if (newPassword.value) {
-      updates.push(updatePassword(user.value, newPassword.value))
-    }
-
-    await Promise.all(updates)
-    success.value = 'Profil mis à jour avec succès'
-    newPassword.value = '' // Clear password field after success
-  } catch (e: any) {
-    error.value = e.message
-  } finally {
-    updating.value = false
-  }
+  // Auth not implemented
 }
-
-// Initialize form with user data when available
-watch(() => user.value, (newUser) => {
-  if (newUser) {
-    displayName.value = newUser.displayName || ''
-    email.value = newUser.email || ''
-  }
-}, { immediate: true })
 </script>
