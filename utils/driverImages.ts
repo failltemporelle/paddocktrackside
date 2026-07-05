@@ -17,7 +17,7 @@ export const driverImageMap: Record<string, string> = {
   'albon':           `${BASE}/williams/alealb01/2026williamsalealb01right.webp`,
   'sainz':           `${BASE}/williams/carsai01/2026williamscarsai01right.webp`,
   'lawson':          `${BASE}/racingbulls/lialaw01/2026racingbullslialaw01right.webp`,
-  'lindblad':        `${BASE}/racingbulls/arvlin01/2026racingbullsarvlin01right.webp`,
+  'arvid_lindblad':  `${BASE}/racingbulls/arvlin01/2026racingbullsarvlin01right.webp`,
   'bearman':         `${BASE}/haasf1team/olibea01/2026haasf1teamolibea01right.webp`,
   'ocon':            `${BASE}/haasf1team/estoco01/2026haasf1teamestoco01right.webp`,
   'hulkenberg':      `${BASE}/audi/nichul01/2026audinichul01right.webp`,
