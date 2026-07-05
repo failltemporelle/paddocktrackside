@@ -93,6 +93,8 @@
 <script setup lang="ts">
 import type { Driver } from '~/types/f1'
 import { ref, computed } from 'vue'
+import { getTeamColor } from '~/utils/teamColors'
+import { getCountryCode } from '~/utils/countryCodes'
 
 const props = defineProps({
   driver: {
@@ -116,48 +118,5 @@ const handleImageError = () => {
 }
 
 // Couleur de l'écurie
-const teamColor = computed(() => {
-  const colors: Record<string, string> = {
-    'red_bull': '#0600EF',
-    'ferrari': '#DC0000',
-    'mercedes': '#00D2BE',
-    'mclaren': '#FF8700',
-    'aston_martin': '#006F62',
-    'alpine': '#0090FF',
-    'williams': '#005AFF',
-    'rb': '#1E3D9B',
-    'sauber': '#52E252',
-    'haas': '#B6BABD' 
-  }
-  
-  const constructorId = props.driver.Constructors[0]?.constructorId
-  return colors[constructorId] || '#666666'
-})
-
-// Conversion nationalité en code pays
-const getCountryCode = (nationality: string) => {
-  const countryMap: Record<string, string> = {
-    'British': 'gb',
-    'Dutch': 'nl',
-    'Mexican': 'mx',
-    'Spanish': 'es',
-    'French': 'fr',
-    'Australian': 'au',
-    'German': 'de',
-    'Canadian': 'ca',
-    'Japanese': 'jp',
-    'Chinese': 'cn',
-    'Thai': 'th',
-    'Danish': 'dk',
-    'Finnish': 'fi',
-    'Italian': 'it',
-    'Monegasque': 'mc',
-    'American': 'us',
-    'New Zealander': 'nz',
-    'Brazilian': 'br',
-    'Argentinean': 'ar',
-    'Argentine': 'ar',
-  }
-  return countryMap[nationality]?.toLowerCase() || 'unknown'
-}
+const teamColor = computed(() => getTeamColor(props.driver.Constructors[0]?.constructorId))
 </script>
