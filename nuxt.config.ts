@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: false },
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-vercel-analytics'],
+  modules: ['@nuxtjs/tailwindcss', '@vercel/analytics'],
   css: ['~/assets/css/main.css'],
   ssr: false, // Disable SSR since we're using Firebase Auth
   runtimeConfig: {
