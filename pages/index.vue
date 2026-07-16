@@ -1,6 +1,7 @@
 <template>
   <div>
     <HomeHero />
+    <HomeDashboard />
     <HomeFeatures />
     <HomeAbout />
     <HomeContact />

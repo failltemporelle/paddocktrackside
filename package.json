@@ -13,6 +13,7 @@
     "@headlessui/vue": "^1.7.19",
     "@heroicons/vue": "^2.1.1",
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "@supabase/supabase-js": "^2.109.0",
     "chart.js": "^4.4.2",
     "daisyui": "^4.7.3",
     "nuxt": "^3.13.0",

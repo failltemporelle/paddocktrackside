@@ -7,6 +7,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBase: 'https://api.jolpi.ca/ergast/f1',
+      supabaseUrl: 'https://gzgxdrlwjjuuwetorpqv.supabase.co',
+      supabaseAnonKey: 'sb_publishable_KVZaERkvHZPWHw7ok97vnQ_id80dRm9',
       firebaseApiKey: '',
       firebaseAuthDomain: '',
       firebaseProjectId: '',

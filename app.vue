@@ -27,6 +27,7 @@
             <NuxtLink to="/standings" class="nav-link-mobile">Classements</NuxtLink>
               <li><NuxtLink to="/races" class="nav-link-mobile">Courses</NuxtLink></li>
               <li><NuxtLink to="/stats" class="nav-link-mobile">Statistiques</NuxtLink></li>
+              <li><NuxtLink to="/records" class="nav-link-mobile">Records</NuxtLink></li>
             </ul>
           </div>
 
@@ -42,6 +43,7 @@
             <li><NuxtLink to="/standings" class="nav-link">Classements</NuxtLink></li>
             <li><NuxtLink to="/races" class="nav-link">Courses</NuxtLink></li>
             <li><NuxtLink to="/stats" class="nav-link">Statistiques</NuxtLink></li>
+            <li><NuxtLink to="/records" class="nav-link">Records</NuxtLink></li>
           </ul>
         </div>
 
@@ -74,6 +76,7 @@
             <NuxtLink to="/standings" class="hover:text-f1-red transition-colors">Classements</NuxtLink>
             <NuxtLink to="/races" class="hover:text-f1-red transition-colors">Courses</NuxtLink>
             <NuxtLink to="/stats" class="hover:text-f1-red transition-colors">Statistiques</NuxtLink>
+            <NuxtLink to="/records" class="hover:text-f1-red transition-colors">Records</NuxtLink>
           </nav>
         </div>
         
