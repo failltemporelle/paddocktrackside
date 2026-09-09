@@ -16,18 +16,26 @@
         <div class="navbar-start">
           <!-- burger mobile -->
           <div class="dropdown lg:hidden">
-            <label tabindex="0" class="btn btn-ghost btn-square btn-sm text-white hover:bg-white/10">
+            <button
+              type="button"
+              aria-label="Ouvrir le menu de navigation"
+              class="btn btn-ghost btn-square text-white hover:bg-white/10"
+              @click="mobileMenuOpen = !mobileMenuOpen"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                    viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4 6h16M4 12h16M4 18h16"/>
               </svg>
-            </label>
-            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl bg-f1-dark-gray border border-white/10 rounded-xl w-52">
-            <NuxtLink to="/standings" class="nav-link-mobile">Classements</NuxtLink>
-              <li><NuxtLink to="/races" class="nav-link-mobile">Courses</NuxtLink></li>
-              <li><NuxtLink to="/stats" class="nav-link-mobile">Statistiques</NuxtLink></li>
-              <li><NuxtLink to="/records" class="nav-link-mobile">Records</NuxtLink></li>
+            </button>
+            <ul
+              class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-xl bg-f1-dark-gray border border-white/10 rounded-xl w-52"
+              :class="{ hidden: !mobileMenuOpen }"
+            >
+              <li><NuxtLink to="/standings" class="nav-link-mobile" @click="mobileMenuOpen = false">Classements</NuxtLink></li>
+              <li><NuxtLink to="/races" class="nav-link-mobile" @click="mobileMenuOpen = false">Courses</NuxtLink></li>
+              <li><NuxtLink to="/stats" class="nav-link-mobile" @click="mobileMenuOpen = false">Statistiques</NuxtLink></li>
+              <li><NuxtLink to="/records" class="nav-link-mobile" @click="mobileMenuOpen = false">Records</NuxtLink></li>
             </ul>
           </div>
 
@@ -93,6 +101,7 @@
 
 <script setup>
 // Theme toggle logic removed to enforce premium dark theme
+const mobileMenuOpen = ref(false)
 </script>
 
 <style>
@@ -128,5 +137,9 @@
 
 .nav-link-mobile {
   @apply text-gray-300 hover:text-white hover:bg-white/5 active:bg-f1-red/20;
+}
+
+.nav-link-mobile.router-link-active {
+  @apply text-white bg-f1-red/20;
 }
 </style>
