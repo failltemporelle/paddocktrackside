@@ -16,7 +16,7 @@
       <div class="max-w-4xl">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-gray-300 mb-6 backdrop-blur-md animate-fade-in">
           <span class="w-2 h-2 rounded-full bg-f1-red animate-pulse"></span>
-          Saison 2025 en direct
+          Saison {{ currentYear }} en direct
         </div>
         
         <h1 class="text-6xl md:text-8xl font-display font-bold italic text-white leading-tight mb-8 drop-shadow-2xl animate-slide-up">
@@ -31,7 +31,7 @@
         <div class="flex flex-col sm:flex-row gap-6 animate-slide-up" style="animation-delay: 200ms;">
           <NuxtLink 
             to="/standings" 
-            class="group relative px-8 py-4 bg-f1-red text-white font-bold italic tracking-wider rounded-xl overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(255,24,1,0.4)] hover:-translate-y-1">
+            class="group relative px-8 py-4 bg-f1-red-action text-white font-bold italic tracking-wider rounded-xl overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(255,24,1,0.4)] hover:-translate-y-1">
             <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             <span class="relative flex items-center gap-2">
               VOIR LES CLASSEMENTS
@@ -44,7 +44,7 @@
           <NuxtLink 
             to="/races" 
             class="group px-8 py-4 bg-white/5 backdrop-blur-md border border-white/10 text-white font-bold italic tracking-wider rounded-xl hover:bg-white/10 hover:border-white/20 transition-all hover:-translate-y-1">
-            CALENDRIER 2025
+            CALENDRIER {{ currentYear }}
           </NuxtLink>
         </div>
       </div>
@@ -58,3 +58,7 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+const currentYear = new Date().getFullYear()
+</script>

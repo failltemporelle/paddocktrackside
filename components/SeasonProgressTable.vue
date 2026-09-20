@@ -135,7 +135,7 @@ const getPositionClass = (pos: string) => {
   if (position <= 10) return 'bg-emerald-500/20 text-emerald-400'
   
   // Out of points (11+)
-  return 'bg-white/5 text-gray-500'
+  return 'bg-white/5 text-gray-400'
 }
 
 const getTeamColor = (id: string | undefined) => {

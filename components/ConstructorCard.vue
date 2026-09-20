@@ -54,9 +54,9 @@
           </div>
 
           <!-- Top Right: Points -->
-          <div class="flex flex-col items-end justify-center bg-f1-red/80 backdrop-blur-sm rounded-lg border border-f1-red px-3 py-1 shadow-[0_0_15px_rgba(255,24,1,0.4)]">
+          <div class="flex flex-col items-end justify-center bg-f1-red-action rounded-lg border border-f1-red-action px-3 py-1 shadow-[0_0_15px_rgba(255,24,1,0.4)]">
             <span class="text-2xl font-bold text-white leading-none">{{ team.points }}</span>
-            <span class="text-[10px] font-bold tracking-widest text-white/90 uppercase">PTS</span>
+            <span class="text-[10px] font-bold tracking-widest text-white uppercase">PTS</span>
           </div>
         </div>
 

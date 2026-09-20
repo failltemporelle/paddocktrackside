@@ -35,7 +35,7 @@
 
         <div class="relative z-10 px-6 py-8 md:px-10 md:py-12 flex flex-col gap-6">
           <div class="flex items-center justify-between">
-            <NuxtLink to="/standings" class="text-sm text-white/60 hover:text-white transition-colors">← Retour aux classements</NuxtLink>
+            <NuxtLink to="/standings" class="inline-flex items-center min-h-11 text-sm text-white/70 hover:text-white transition-colors" @click.prevent="goBack">← Retour aux classements</NuxtLink>
             <div v-if="profile?.permanentNumber" class="font-display italic font-extrabold text-5xl md:text-7xl text-white/10 select-none leading-none">
               #{{ profile.permanentNumber }}
             </div>
@@ -82,7 +82,7 @@
             <span class="text-xl">📅</span>
           </div>
           <p class="text-4xl font-display font-bold text-white mt-2">{{ seasons }}</p>
-          <p class="text-xs text-white/40 mt-2">De {{ firstSeason }} à {{ lastSeason }}</p>
+          <p class="text-xs text-gray-400 mt-2">De {{ firstSeason }} à {{ lastSeason }}</p>
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-f1-dark-gray/60 backdrop-blur-md p-5 shadow-lg transition-colors hover:border-f1-red/40">
@@ -93,7 +93,7 @@
           <p class="text-4xl font-display font-bold text-white mt-2">{{ totalWins }}</p>
           <div class="flex items-center gap-3 mt-3">
             <div class="radial-progress text-f1-red text-xs font-bold" :style="{ '--value': winRatePct, '--size': '2.75rem', '--thickness': '3px' }" role="progressbar">{{ winRatePct }}%</div>
-            <p class="text-xs text-white/40">Taux de victoire</p>
+            <p class="text-xs text-gray-400">Taux de victoire</p>
           </div>
         </div>
 
@@ -103,7 +103,7 @@
             <span class="text-xl">💯</span>
           </div>
           <p class="text-4xl font-display font-bold text-white mt-2">{{ totalPoints }}</p>
-          <p class="text-xs text-white/40 mt-2">Meilleure position : P{{ bestPositionDisplay }}</p>
+          <p class="text-xs text-gray-400 mt-2">Meilleure position : P{{ bestPositionDisplay }}</p>
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-f1-dark-gray/60 backdrop-blur-md p-5 shadow-lg transition-colors hover:border-f1-red/40">
@@ -112,7 +112,7 @@
             <span class="text-xl">🥈</span>
           </div>
           <p class="text-4xl font-display font-bold text-white mt-2">{{ totalPodiums }}</p>
-          <p class="text-xs text-white/40 mt-2">Poles : {{ polesFastest.poles }} • Meilleurs tours : {{ polesFastest.fastestLaps }}</p>
+          <p class="text-xs text-gray-400 mt-2">Poles : {{ polesFastest.poles }} • Meilleurs tours : {{ polesFastest.fastestLaps }}</p>
         </div>
       </div>
 
@@ -145,11 +145,11 @@
               :datasets="[{ data: [doughnutData.wins, doughnutData.podiumsOnly, doughnutData.others] }]"
             />
             <div class="w-full text-sm text-white/70 space-y-1.5">
-              <p class="flex justify-between"><span class="text-white/40">Total courses</span><b class="text-white">{{ totalStarts ?? 'N/A' }}</b></p>
-              <p class="flex justify-between"><span class="text-white/40">Arrivées dans les points</span><b class="text-white">{{ finishesInPoints ?? 'N/A' }}</b></p>
-              <p class="flex justify-between"><span class="text-white/40">Abandons (DNF)</span><b class="text-white">{{ totalDNF ?? 'N/A' }}</b></p>
-              <p class="flex justify-between"><span class="text-white/40">Grille moyenne</span><b class="text-white">{{ avgGrid ?? 'N/A' }}</b></p>
-              <p class="flex justify-between"><span class="text-white/40">Arrivée moyenne</span><b class="text-white">{{ avgFinish ?? 'N/A' }}</b></p>
+              <p class="flex justify-between"><span class="text-gray-400">Total courses</span><b class="text-white">{{ totalStarts ?? 'N/A' }}</b></p>
+              <p class="flex justify-between"><span class="text-gray-400">Arrivées dans les points</span><b class="text-white">{{ finishesInPoints ?? 'N/A' }}</b></p>
+              <p class="flex justify-between"><span class="text-gray-400">Abandons (DNF)</span><b class="text-white">{{ totalDNF ?? 'N/A' }}</b></p>
+              <p class="flex justify-between"><span class="text-gray-400">Grille moyenne</span><b class="text-white">{{ avgGrid ?? 'N/A' }}</b></p>
+              <p class="flex justify-between"><span class="text-gray-400">Arrivée moyenne</span><b class="text-white">{{ avgFinish ?? 'N/A' }}</b></p>
             </div>
           </div>
         </div>
@@ -167,7 +167,7 @@
         <div class="overflow-x-auto">
           <table class="table">
             <thead>
-              <tr class="text-white/40 text-xs uppercase tracking-widest border-white/10">
+              <tr class="text-gray-400 text-xs uppercase tracking-widest border-white/10">
                 <th>Saison</th>
                 <th>Équipe</th>
                 <th>Courses</th>
@@ -212,27 +212,27 @@
           <h2 class="text-lg font-display font-bold text-white mb-4">Bio & Infos</h2>
           <div class="grid grid-cols-2 md:grid-cols-3 gap-5 text-sm">
             <div>
-              <p class="text-white/40 text-xs uppercase tracking-widest mb-1">Débuts F1</p>
+              <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Débuts F1</p>
               <p class="font-medium text-white">{{ debutYear || '—' }}</p>
             </div>
             <div>
-              <p class="text-white/40 text-xs uppercase tracking-widest mb-1">Dernière saison</p>
+              <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Dernière saison</p>
               <p class="font-medium text-white">{{ lastSeason }}</p>
             </div>
             <div>
-              <p class="text-white/40 text-xs uppercase tracking-widest mb-1">Équipe actuelle</p>
+              <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Équipe actuelle</p>
               <p class="font-medium text-white">{{ currentTeam || '—' }}</p>
             </div>
             <div>
-              <p class="text-white/40 text-xs uppercase tracking-widest mb-1">Pays</p>
+              <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Pays</p>
               <p class="font-medium text-white">{{ profile?.nationality || '—' }}</p>
             </div>
             <div>
-              <p class="text-white/40 text-xs uppercase tracking-widest mb-1">Code FIA</p>
+              <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Code FIA</p>
               <p class="font-medium text-white">{{ driverCode || '—' }}</p>
             </div>
             <div>
-              <p class="text-white/40 text-xs uppercase tracking-widest mb-1">Numéro</p>
+              <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Numéro</p>
               <p class="font-medium text-white">{{ profile?.permanentNumber || '—' }}</p>
             </div>
           </div>
@@ -241,9 +241,8 @@
         <div class="rounded-2xl border border-white/10 bg-f1-dark-gray/60 backdrop-blur-md p-5 shadow-lg">
           <h2 class="text-lg font-display font-bold text-white mb-4">Liens rapides</h2>
           <div class="flex flex-wrap gap-2">
-            <NuxtLink :to="`/drivers/${route.params.id}/races/${lastSeason}`" class="btn btn-sm btn-primary">Résultats {{ lastSeason }}</NuxtLink>
-            <NuxtLink :to="`/drivers/${route.params.id}/qualifying/${lastSeason}`" class="btn btn-sm btn-ghost text-white/70">Qualifs {{ lastSeason }}</NuxtLink>
-            <a v-if="profile?.url" :href="profile.url" target="_blank" class="btn btn-sm btn-outline border-white/20 text-white/70">Profil officiel</a>
+            <NuxtLink :to="{ path: '/compare/drivers', query: { d1: String(route.params.id), year: String(lastSeason) } }" class="btn btn-sm btn-primary">Comparer avec un autre pilote</NuxtLink>
+            <a v-if="profile?.url" :href="profile.url" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline border-white/20 text-white/70">Profil officiel</a>
           </div>
         </div>
       </div>
@@ -291,7 +290,15 @@ interface DriverProfile {
 }
 
 const route = useRoute()
+const router = useRouter()
 const loading = ref(true)
+
+// Retour à la page précédente (année/onglet conservés) ; repli sur les classements
+// si la fiche a été ouverte directement (pas d'historique interne).
+const goBack = () => {
+  if (window.history.state?.back) router.back()
+  else router.push('/standings')
+}
 
 const driverHistory = ref<SeasonStat[]>([])
 const profile = ref<DriverProfile | null>(null)
@@ -413,6 +420,12 @@ const driverName = computed(() => {
   if (s?.Driver) return `${s.Driver.givenName} ${s.Driver.familyName}`
   return ''
 })
+
+const { generateMeta } = useSeo()
+useHead(() => generateMeta({
+  title: `${driverName.value || 'Pilote'} : statistiques et carrière F1 | Paddock Track Side`,
+  description: `Profil de ${driverName.value || 'ce pilote'} en Formule 1 : classement, points, victoires, podiums et résultats saison par saison.`
+}))
 
 const driverCode = computed(() => {
   if (profile.value?.code) return profile.value.code as string

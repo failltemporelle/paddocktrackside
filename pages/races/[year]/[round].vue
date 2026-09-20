@@ -1,10 +1,25 @@
 <template>
-  <div class="min-h-screen bg-f1-black">
+  <div class="min-h-screen bg-f1-black relative">
     <div v-if="loading" class="flex justify-center items-center min-h-[50vh]">
       <span class="loading loading-spinner loading-lg text-f1-red"></span>
     </div>
     
     <template v-else-if="race">
+      <!-- Fil d'Ariane -->
+      <nav aria-label="Fil d'Ariane" class="absolute top-0 left-0 right-0 z-20 container mx-auto px-4 pt-4">
+        <ol class="flex flex-wrap items-center gap-x-2 text-sm text-gray-300">
+          <li><NuxtLink to="/" class="inline-flex items-center min-h-11 hover:text-white underline-offset-2 hover:underline">Accueil</NuxtLink></li>
+          <li aria-hidden="true">›</li>
+          <li>
+            <NuxtLink :to="{ path: '/races', query: { year: race.season } }" class="inline-flex items-center min-h-11 hover:text-white underline-offset-2 hover:underline">
+              Calendrier {{ race.season }}
+            </NuxtLink>
+          </li>
+          <li aria-hidden="true">›</li>
+          <li aria-current="page" class="text-white font-medium">{{ race.raceName }}</li>
+        </ol>
+      </nav>
+
       <!-- Hero Section -->
       <RaceHero 
         :race-name="race.raceName"
@@ -33,7 +48,7 @@
       <div class="text-center py-12 space-y-4">
         <h2 class="text-3xl font-bold text-white">Course non trouvée</h2>
         <p class="text-gray-400">Les données pour cette course ne sont pas disponibles.</p>
-        <NuxtLink to="/races" class="btn bg-f1-red hover:bg-red-600 text-white border-none">
+        <NuxtLink :to="{ path: '/races', query: { year: String(route.params.year) } }" class="btn bg-f1-red-action hover:brightness-110 text-white border-none">
           Retour au calendrier
         </NuxtLink>
       </div>
@@ -53,22 +68,18 @@ const race = ref<Race | null>(null)
 const qualifyingResults = ref<QualifyingResult[]>([])
 const sprintResults = ref<SprintResult[]>([])
 
-// Set default meta tags
-useHead(generateMeta({
-  title: 'Résultats de course | Paddock Track Side',
-  description: 'Consultez les résultats détaillés des Grands Prix de Formule 1.'
-}))
-
-// Update meta tags when race data is available
-watch(() => race.value, (newRace) => {
-  if (newRace) {
-    useHead(generateMeta({
-      title: `${newRace.raceName} ${newRace.season} | Paddock Track Side`,
-      description: `Suivez les résultats du Grand Prix ${newRace.raceName} ${newRace.season}. Qualifications, course et statistiques complètes.`,
-      url: `https://paddocktrackside.com/races/${newRace.season}/${newRace.round}`
-    }))
-  }
-})
+// Titre et métadonnées réactifs : un seul appel dans le setup, mis à jour quand la course est chargée
+useHead(() => race.value
+  ? generateMeta({
+      title: `${race.value.raceName} ${race.value.season} | Paddock Track Side`,
+      description: `Suivez les résultats du Grand Prix ${race.value.raceName} ${race.value.season}. Qualifications, course et statistiques complètes.`,
+      path: `/races/${race.value.season}/${race.value.round}`
+    })
+  : generateMeta({
+      title: 'Résultats de course | Paddock Track Side',
+      description: 'Consultez les résultats détaillés des Grands Prix de Formule 1.'
+    })
+)
 
 onMounted(async () => {
   try {

@@ -16,7 +16,7 @@
       <div class="max-w-4xl space-y-6 animate-slide-up">
         <!-- Badges -->
         <div class="flex items-center gap-3">
-          <span class="px-3 py-1 rounded-full bg-f1-red text-white text-sm font-bold tracking-wider uppercase shadow-[0_0_15px_rgba(255,24,1,0.4)]">
+          <span class="px-3 py-1 rounded-full bg-f1-red-action text-white text-sm font-bold tracking-wider uppercase shadow-[0_0_15px_rgba(255,24,1,0.4)]">
             Round {{ round }}
           </span>
           <span class="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-white text-sm font-bold border border-white/20">

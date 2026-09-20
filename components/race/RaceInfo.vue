@@ -28,12 +28,12 @@
       <!-- Details (Compact Sidebar) -->
       <div class="p-6 space-y-6">
         <div>
-          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Nom du Circuit</div>
+          <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Nom du Circuit</div>
           <div class="text-lg font-bold text-white leading-tight">{{ circuit.circuitName }}</div>
         </div>
         
         <div>
-          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Localisation</div>
+          <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Localisation</div>
           <div class="flex items-center gap-2 text-white">
             <span>📍</span>
             <span class="font-medium">{{ circuit.Location.locality }}, {{ circuit.Location.country }}</span>
@@ -43,11 +43,11 @@
         <div class="pt-4 border-t border-white/5">
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Latitude</div>
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Latitude</div>
               <div class="text-sm font-mono text-gray-300">{{ circuit.Location.lat }}</div>
             </div>
             <div>
-              <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Longitude</div>
+              <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Longitude</div>
               <div class="text-sm font-mono text-gray-300">{{ circuit.Location.long }}</div>
             </div>
           </div>

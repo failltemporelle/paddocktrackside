@@ -4,15 +4,14 @@
     <HomeDashboard />
     <HomeFeatures />
     <HomeAbout />
-    <HomeContact />
   </div>
 </template>
 
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 const { generateMeta } = useSeo()
 
 useHead(generateMeta({
-  title: 'Paddock Track Side - Accueil | Suivez la F1 en direct',
-  description: 'Bienvenue sur Paddock Track Side, votre destination ultime pour suivre la Formule 1. Découvrez les classements, statistiques et analyses en temps réel.'
+  title: 'Paddock Track Side | Classements, calendrier et statistiques F1',
+  description: 'Paddock Track Side : suivez la Formule 1 avec les classements, le calendrier, les statistiques et les records de chaque saison.'
 }))
-</script> -->
+</script>

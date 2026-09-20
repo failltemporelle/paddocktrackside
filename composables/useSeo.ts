@@ -1,41 +1,57 @@
 import type { MetaObject } from '@nuxt/schema'
 
+interface SeoOptions {
+  title: string
+  description: string
+  image: string
+  /** Chemin de la page (ex. /standings). Par défaut : la route courante. */
+  path: string
+  /** noindex pour les pages qui ne doivent pas être référencées */
+  noindex: boolean
+}
+
 export const useSeo = () => {
+  const config = useRuntimeConfig()
+  const route = useRoute()
+  const siteUrl = String(config.public.siteUrl).replace(/\/$/, '')
+
   const defaultMeta = {
-    title: 'Paddock Track Side - Suivez la F1 en direct',
-    description: 'Découvrez les derniers classements, statistiques et analyses de Formule 1. Restez connecté avec votre sport favori.',
-    image: '/images/og-image.jpg',
-    url: 'https://paddocktrackside.com'
+    title: 'Paddock Track Side | Classements, calendrier et statistiques F1',
+    description: 'Suivez la Formule 1 : classements pilotes et constructeurs, calendrier, résultats de Grands Prix, statistiques, records et comparateur de pilotes.',
+    image: '/images/og-image.jpg'
   }
 
-  const generateMeta = (meta: Partial<typeof defaultMeta> = {}): MetaObject => {
-    const finalMeta = { ...defaultMeta, ...meta }
-    
+  const generateMeta = (meta: Partial<SeoOptions> = {}): MetaObject => {
+    const finalMeta = { ...defaultMeta, noindex: false, ...meta }
+    // Chemin sans paramètres de requête : une seule URL canonique par page
+    const path = finalMeta.path ?? route.path
+    const url = `${siteUrl}${path === '/' ? '/' : path.replace(/\/$/, '')}`
+    const image = finalMeta.image.startsWith('http') ? finalMeta.image : `${siteUrl}${finalMeta.image}`
+
     return {
       title: finalMeta.title,
       meta: [
         { name: 'description', content: finalMeta.description },
-        
+
         // Open Graph
         { property: 'og:title', content: finalMeta.title },
         { property: 'og:description', content: finalMeta.description },
-        { property: 'og:image', content: finalMeta.image },
-        { property: 'og:url', content: finalMeta.url },
+        { property: 'og:image', content: image },
+        { property: 'og:url', content: url },
         { property: 'og:type', content: 'website' },
-        
+        { property: 'og:site_name', content: 'Paddock Track Side' },
+        { property: 'og:locale', content: 'fr_FR' },
+
         // Twitter
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: finalMeta.title },
         { name: 'twitter:description', content: finalMeta.description },
-        { name: 'twitter:image', content: finalMeta.image },
-        
-        // Additional SEO
-        { name: 'robots', content: 'index, follow' },
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { 'http-equiv': 'Content-Type', content: 'text/html; charset=utf-8' }
+        { name: 'twitter:image', content: image },
+
+        { name: 'robots', content: finalMeta.noindex ? 'noindex, follow' : 'index, follow' }
       ],
       link: [
-        { rel: 'canonical', href: finalMeta.url }
+        { rel: 'canonical', href: url }
       ]
     }
   }

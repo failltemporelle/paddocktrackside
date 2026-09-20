@@ -1,26 +1,32 @@
 <template>
   <div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold mb-6">Classements F1 {{ currentYear }}</h1>
+    <h1 class="text-3xl font-bold mb-6">Classements F1 {{ selectedYear }}</h1>
 
     <!-- Year selector -->
     <YearSelector v-model:year="selectedYear" />
 
     <!-- Tabs -->
-    <div class="tabs tabs-boxed mb-6">
-      <a 
-        class="tab" 
+    <div class="tabs tabs-boxed mb-6" role="tablist" aria-label="Type de classement">
+      <button
+        type="button"
+        role="tab"
+        class="tab min-h-11"
         :class="{ 'tab-active': activeTab === 'drivers' }"
-        @click="activeTab = 'drivers'"
+        :aria-selected="activeTab === 'drivers'"
+        @click="setTab('drivers')"
       >
         Pilotes
-      </a>
-      <a 
-        class="tab" 
+      </button>
+      <button
+        type="button"
+        role="tab"
+        class="tab min-h-11"
         :class="{ 'tab-active': activeTab === 'constructors' }"
-        @click="activeTab = 'constructors'"
+        :aria-selected="activeTab === 'constructors'"
+        @click="setTab('constructors')"
       >
         Constructeurs
-      </a>
+      </button>
     </div>
 
     <!-- Loading state -->
@@ -47,12 +53,21 @@
 
 <script setup lang="ts">
 const { fetchDriverStandings, fetchConstructorStandings } = useJolpicaApi()
+const route = useRoute()
+const router = useRouter()
 const currentYear = new Date().getFullYear()
+
+// Année et onglet sont portés par l'URL (?year=2019&tab=constructors) :
+// le bouton « Précédent » du navigateur retrouve donc le contexte.
+const parseYear = (value: unknown) => {
+  const year = parseInt(String(value), 10)
+  return Number.isFinite(year) && year >= 1950 && year <= currentYear ? year : currentYear
+}
 
 const loading = ref(false)
 const error = ref<string | null>(null)
-const activeTab = ref('drivers')
-const selectedYear = ref(currentYear)
+const activeTab = ref<'drivers' | 'constructors'>(route.query.tab === 'constructors' ? 'constructors' : 'drivers')
+const selectedYear = ref(parseYear(route.query.year))
 const drivers = ref([])
 const constructors = ref([])
 
@@ -76,6 +91,28 @@ const fetchStandings = async () => {
   }
 }
 
+const setTab = (tab: 'drivers' | 'constructors') => {
+  activeTab.value = tab
+}
+
+const { generateMeta } = useSeo()
+useHead(() => generateMeta({
+  title: `Classements F1 ${selectedYear.value} : pilotes et constructeurs | Paddock Track Side`,
+  description: `Classement du championnat du monde de Formule 1 ${selectedYear.value} : points, victoires et positions des pilotes et des écuries.`,
+  path: '/standings'
+}))
+
 // Fetch data when year changes
 watch(() => selectedYear.value, fetchStandings, { immediate: true })
+
+// Synchronise l'URL (sans ajouter d'entrée d'historique)
+watch([selectedYear, activeTab], ([year, tab]) => {
+  router.replace({
+    query: {
+      ...route.query,
+      year: String(year),
+      tab: tab === 'constructors' ? 'constructors' : undefined
+    }
+  })
+})
 </script>

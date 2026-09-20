@@ -29,17 +29,6 @@
               De la grille de départ au drapeau à damier, vivez l'intensité de la compétition avec une interface conçue pour la vitesse et la clarté.
             </p>
           </div>
-
-          <div class="mt-10">
-            <NuxtLink to="/about" class="inline-flex items-center gap-3 text-white font-bold hover:text-f1-red transition-colors group">
-              EN SAVOIR PLUS
-              <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-f1-red transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </span>
-            </NuxtLink>
-          </div>
         </div>
       </div>
     </div>

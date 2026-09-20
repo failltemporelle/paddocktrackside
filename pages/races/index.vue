@@ -32,7 +32,22 @@ import type { Race } from '~/types/f1'
 const loading = ref(true)
 const error = ref<string | null>(null)
 const races = ref<Race[]>([])
-const selectedYear = ref(new Date().getFullYear())
+const route = useRoute()
+const router = useRouter()
+const currentYear = new Date().getFullYear()
+
+// L'année est portée par l'URL (?year=2019) pour que « Précédent » retrouve le contexte
+const queryYear = parseInt(String(route.query.year), 10)
+const selectedYear = ref(
+  Number.isFinite(queryYear) && queryYear >= 1950 && queryYear <= currentYear ? queryYear : currentYear
+)
+
+const { generateMeta } = useSeo()
+useHead(() => generateMeta({
+  title: `Calendrier F1 ${selectedYear.value} : Grands Prix et résultats | Paddock Track Side`,
+  description: `Calendrier complet de la saison de Formule 1 ${selectedYear.value} : dates, circuits et résultats de chaque Grand Prix.`,
+  path: '/races'
+}))
 
 const { fetchRaces } = useJolpicaApi()
 
@@ -51,6 +66,7 @@ const loadRaces = async () => {
 
 const updateYear = (year: number) => {
   selectedYear.value = year
+  router.replace({ query: { ...route.query, year: String(year) } })
   loadRaces()
 }
 

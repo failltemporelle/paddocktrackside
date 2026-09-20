@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[400px]">
+  <div class="w-full h-[400px]" role="img" :aria-label="ariaLabel">
     <Line
       :data="chartData"
       :options="chartOptions"
@@ -44,8 +44,16 @@ const props = defineProps({
       borderColor: string
       backgroundColor: string
       fill?: boolean
+      borderDash?: number[]
+      pointRadius?: number
+      tension?: number
     }[]>,
     required: true
+  },
+  // Alternative textuelle du graphique (lecteurs d'écran)
+  ariaLabel: {
+    type: String,
+    default: 'Graphique en courbes'
   }
 })
 
@@ -59,7 +67,10 @@ const chartOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: {
-      position: 'top' as const
+      position: 'top' as const,
+      labels: {
+        color: '#d1d5db'
+      }
     },
     tooltip: {
       mode: 'index' as const,
@@ -67,8 +78,22 @@ const chartOptions = {
     }
   },
   scales: {
+    x: {
+      grid: {
+        display: false
+      },
+      ticks: {
+        color: '#9ca3af'
+      }
+    },
     y: {
-      beginAtZero: true
+      beginAtZero: true,
+      grid: {
+        color: 'rgba(156,163,175,0.15)'
+      },
+      ticks: {
+        color: '#9ca3af'
+      }
     }
   }
 }

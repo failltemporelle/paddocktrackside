@@ -15,7 +15,7 @@
               v-model="query"
               type="text"
               placeholder="Tape un record... ex: nombre de pole position"
-              class="input input-lg w-full bg-f1-black/60 border-white/10 text-white placeholder:text-white/30 focus:border-f1-red focus:outline-none rounded-2xl px-6"
+              class="input input-lg w-full bg-f1-black/60 border-white/10 text-white placeholder:text-gray-400 focus:border-f1-red focus:outline-none rounded-2xl px-6"
               @keydown.enter="selectTopMatch"
             />
 
@@ -31,7 +31,7 @@
                 @click="selectRecord(item)"
               >
                 <p class="text-white font-medium">{{ item.title }}</p>
-                <p class="text-xs text-white/40">{{ item.category === 'driver' ? 'Pilotes' : 'Écuries' }} · {{ item.description }}</p>
+                <p class="text-xs text-gray-400">{{ item.category === 'driver' ? 'Pilotes' : 'Écuries' }} · {{ item.description }}</p>
               </button>
             </div>
 
@@ -69,11 +69,11 @@
           >
             <span
               class="w-8 h-8 flex items-center justify-center rounded-full font-display font-bold text-sm flex-shrink-0"
-              :class="index === 0 ? 'bg-f1-red text-white' : 'bg-white/10 text-white/60'"
+              :class="index === 0 ? 'bg-f1-red-action text-white' : 'bg-white/10 text-white/60'"
             >{{ index + 1 }}</span>
             <div class="flex-grow min-w-0">
               <p class="text-white font-medium truncate">{{ row.entity_name }}</p>
-              <p v-if="row.extra" class="text-xs text-white/40 truncate">{{ row.extra }}</p>
+              <p v-if="row.extra" class="text-xs text-gray-400 truncate">{{ row.extra }}</p>
             </div>
             <span class="text-f1-red font-display font-bold text-lg flex-shrink-0">{{ formatValue(activeRecord.unit, row.value) }}</span>
           </div>
@@ -93,7 +93,7 @@
             class="text-left rounded-2xl border border-white/10 bg-f1-dark-gray/60 backdrop-blur-md p-5 shadow-lg transition-colors hover:border-f1-red/40"
             @click="selectRecord(item)"
           >
-            <p class="text-xs uppercase tracking-widest text-white/40 font-semibold mb-2">{{ item.category === 'driver' ? 'Pilotes' : 'Écuries' }}</p>
+            <p class="text-xs uppercase tracking-widest text-gray-400 font-semibold mb-2">{{ item.category === 'driver' ? 'Pilotes' : 'Écuries' }}</p>
             <p class="text-white font-medium leading-snug">{{ item.title }}</p>
           </button>
         </div>
@@ -103,6 +103,13 @@
 </template>
 
 <script setup lang="ts">
+const { generateMeta } = useSeo()
+useHead(generateMeta({
+  title: 'Records F1 : victoires, poles et podiums de tous les temps | Paddock Track Side',
+  description: 'Les records de la Formule 1 depuis 1950 : plus de victoires, de pole positions, de podiums et de titres, par pilote et par écurie.',
+  path: '/records'
+}))
+
 import { computed, onMounted, ref } from 'vue'
 import { useRecords, type RecordCatalogItem, type RecordLeaderboardRow } from '@/composables/useRecords'
 

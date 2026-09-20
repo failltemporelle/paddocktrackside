@@ -60,11 +60,11 @@
 
               <div class="flex items-center justify-between mt-6 pt-6 border-t border-white/10 text-sm">
                 <div class="flex flex-col">
-                  <span class="text-xs text-gray-500 uppercase tracking-wider">Date</span>
+                  <span class="text-xs text-gray-400 uppercase tracking-wider">Date</span>
                   <span class="text-white font-medium">{{ formatDate(nextRace.date) }}</span>
                 </div>
                 <div class="flex flex-col items-end">
-                  <span class="text-xs text-gray-500 uppercase tracking-wider">Heure</span>
+                  <span class="text-xs text-gray-400 uppercase tracking-wider">Heure</span>
                   <span class="text-white font-medium">{{ formatTime(nextRace.time) }}</span>
                 </div>
               </div>
@@ -77,7 +77,7 @@
               </div>
             </template>
 
-            <NuxtLink to="/races" class="btn btn-sm bg-white/5 border-white/10 text-white hover:bg-f1-red hover:border-f1-red rounded-lg mt-6 self-start">
+            <NuxtLink to="/races" class="btn btn-sm bg-white/5 border-white/10 text-white hover:bg-f1-red-action hover:border-f1-red-action rounded-lg mt-6 self-start">
               Voir le calendrier
             </NuxtLink>
           </div>
@@ -104,11 +104,11 @@
             <div class="w-full flex justify-center gap-8 mt-6 pt-6 border-t border-white/10">
               <div class="flex flex-col items-center">
                 <span class="text-2xl font-display font-bold italic text-white">{{ completedRaces }}</span>
-                <span class="text-xs text-gray-500 uppercase tracking-wider">Disputées</span>
+                <span class="text-xs text-gray-400 uppercase tracking-wider">Disputées</span>
               </div>
               <div class="flex flex-col items-center">
                 <span class="text-2xl font-display font-bold italic text-white">{{ remainingRaces }}</span>
-                <span class="text-xs text-gray-500 uppercase tracking-wider">Restantes</span>
+                <span class="text-xs text-gray-400 uppercase tracking-wider">Restantes</span>
               </div>
             </div>
           </div>
@@ -146,13 +146,13 @@
                   <span class="font-bold text-white truncate group-hover/row:text-f1-red transition-colors">
                     {{ driver.Driver.givenName }} {{ driver.Driver.familyName }}
                   </span>
-                  <span class="flex items-center gap-1.5 text-xs text-gray-500 truncate">
+                  <span class="flex items-center gap-1.5 text-xs text-gray-400 truncate">
                     <span class="w-1.5 h-1.5 rounded-full" :style="`background-color: ${getTeamColor(driver.Constructors[0]?.constructorId)}`"></span>
                     {{ driver.Constructors[0]?.name }}
                   </span>
                 </div>
 
-                <span class="font-display font-bold italic text-white shrink-0">{{ driver.points }} <span class="text-xs text-gray-500 font-sans not-italic">pts</span></span>
+                <span class="font-display font-bold italic text-white shrink-0">{{ driver.points }} <span class="text-xs text-gray-400 font-sans not-italic">pts</span></span>
               </NuxtLink>
             </div>
           </div>
@@ -185,13 +185,13 @@
 
                 <div class="flex flex-col flex-grow min-w-0">
                   <span class="font-bold text-white truncate">{{ team.Constructor.name }}</span>
-                  <span class="flex items-center gap-1.5 text-xs text-gray-500">
+                  <span class="flex items-center gap-1.5 text-xs text-gray-400">
                     <span class="w-1.5 h-1.5 rounded-full" :style="`background-color: ${getTeamColor(team.Constructor.constructorId)}`"></span>
                     {{ team.wins }} victoire{{ Number(team.wins) > 1 ? 's' : '' }}
                   </span>
                 </div>
 
-                <span class="font-display font-bold italic text-white shrink-0">{{ team.points }} <span class="text-xs text-gray-500 font-sans not-italic">pts</span></span>
+                <span class="font-display font-bold italic text-white shrink-0">{{ team.points }} <span class="text-xs text-gray-400 font-sans not-italic">pts</span></span>
               </div>
             </div>
           </div>

@@ -33,7 +33,7 @@
                   <div class="font-bold text-white group-hover:text-f1-red transition-colors">
                     {{ result.Driver.givenName }} {{ result.Driver.familyName }}
                   </div>
-                  <div class="text-xs text-gray-500">#{{ result.number }}</div>
+                  <div class="text-xs text-gray-400">#{{ result.number }}</div>
                 </div>
               </div>
             </td>

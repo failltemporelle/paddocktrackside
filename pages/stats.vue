@@ -28,7 +28,7 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
       <!-- KPI 1 -->
       <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
-        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Leader Pilotes</div>
+        <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Leader Pilotes</div>
         <div class="text-xl md:text-2xl font-display font-bold italic text-white truncate group-hover:text-f1-red transition-colors">
           {{ kpi.leaderDriverName || '—' }}
         </div>
@@ -39,7 +39,7 @@
 
       <!-- KPI 2 -->
       <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
-        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Écart P1 → P2</div>
+        <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Écart P1 → P2</div>
         <div class="text-3xl md:text-4xl font-bold text-white group-hover:text-f1-red transition-colors">
           {{ kpi.driverGapP1P2 ?? '—' }}
         </div>
@@ -48,7 +48,7 @@
 
       <!-- KPI 3 -->
       <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
-        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Leader Constructeurs</div>
+        <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Leader Constructeurs</div>
         <div class="text-xl md:text-2xl font-display font-bold italic text-white truncate group-hover:text-f1-red transition-colors">
           {{ kpi.leaderConstructorName || '—' }}
         </div>
@@ -59,7 +59,7 @@
 
       <!-- KPI 4 -->
       <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
-        <div class="text-xs uppercase tracking-widest text-gray-500 mb-2">Écart C1 → C2</div>
+        <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Écart C1 → C2</div>
         <div class="text-3xl md:text-4xl font-bold text-white group-hover:text-f1-red transition-colors">
           {{ kpi.constructorGapC1C2 ?? '—' }}
         </div>
@@ -141,13 +141,13 @@
                     <div class="font-bold text-white group-hover:text-f1-red transition-colors">
                       {{ driver.Driver.givenName }} {{ driver.Driver.familyName }}
                     </div>
-                    <div class="text-xs text-gray-500">{{ driver.Constructors?.[0]?.name || '—' }}</div>
+                    <div class="text-xs text-gray-400">{{ driver.Constructors?.[0]?.name || '—' }}</div>
                   </td>
                   <td class="px-6 py-4 text-right font-bold text-white">{{ driver.points }}</td>
                   <td class="px-6 py-4 text-right text-gray-400">{{ driver.wins }}</td>
                 </tr>
                 <tr v-if="!topDrivers.length">
-                  <td colspan="4" class="px-6 py-8 text-center text-gray-500">Aucune donnée</td>
+                  <td colspan="4" class="px-6 py-8 text-center text-gray-400">Aucune donnée</td>
                 </tr>
               </tbody>
             </table>
@@ -183,7 +183,7 @@
                   <td class="px-6 py-4 text-right text-gray-400">{{ constructor.wins }}</td>
                 </tr>
                 <tr v-if="!topConstructors.length">
-                  <td colspan="4" class="px-6 py-8 text-center text-gray-500">Aucune donnée</td>
+                  <td colspan="4" class="px-6 py-8 text-center text-gray-400">Aucune donnée</td>
                 </tr>
               </tbody>
             </table>
@@ -234,7 +234,7 @@
           <div v-else-if="historyLoading" class="p-10 flex justify-center">
             <span class="loading loading-spinner text-f1-red"></span>
           </div>
-          <div v-else class="p-10 text-center text-gray-500">
+          <div v-else class="p-10 text-center text-gray-400">
             Aucune donnée de course disponible pour {{ historyYear }}
           </div>
         </div>
@@ -244,6 +244,13 @@
 </template>
 
 <script setup lang="ts">
+const { generateMeta } = useSeo()
+useHead(generateMeta({
+  title: 'Statistiques F1 : évolution des points par saison | Paddock Track Side',
+  description: 'Statistiques de la saison de Formule 1 : évolution des points des pilotes et des écuries, course après course.',
+  path: '/stats'
+}))
+
 import { ref, computed, reactive, onMounted, watch } from 'vue'
 const { fetchDriverStandings, fetchConstructorStandings, fetchSeasonResults } = useJolpicaApi()
 

@@ -17,7 +17,8 @@ export default {
         '2xl': '1440px',
       },
       colors: {
-        'f1-red': '#FF1801', // Vibrant neon red
+        'f1-red': '#FF1801', // Rouge vif : texte/accents sur fond sombre uniquement (5,0:1 sur f1-black)
+        'f1-red-action': '#E10600', // Rouge des fonds portant du texte blanc (5,0:1, AA)
         'f1-red-dark': '#B30000',
         'f1-black': '#0B0B0F', // Deep rich black
         'f1-dark-gray': '#15151E',
@@ -69,7 +70,8 @@ export default {
     themes: [
       {
         f1theme: {
-          "primary": "#FF1801",
+          "primary": "#E10600", // = f1-red-action (texte blanc lisible)
+          "primary-content": "#FFFFFF",
           "secondary": "#0B0B0F",
           "accent": "#38383F",
           "neutral": "#F8F4F4",
