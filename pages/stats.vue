@@ -1,8 +1,8 @@
 <template>
-  <div class="container mx-auto p-4 md:p-6">
+  <div class="py-4 md:p-6">
     <!-- HEADER -->
     <div class="mb-8 md:mb-12 animate-fade-in">
-      <div class="flex items-center justify-between gap-3">
+      <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 class="text-3xl md:text-5xl font-display font-bold italic text-white tracking-tight">
             Dashboard <span class="text-f1-red">Statistiques</span>
@@ -25,11 +25,11 @@
     </div>
 
     <!-- KPI CARDS -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-12">
       <!-- KPI 1 -->
       <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
         <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Leader Pilotes</div>
-        <div class="text-xl md:text-2xl font-display font-bold italic text-white truncate group-hover:text-f1-red transition-colors">
+        <div class="text-lg sm:text-xl md:text-2xl font-display font-bold italic text-white break-words group-hover:text-f1-red transition-colors">
           {{ kpi.leaderDriverName || '—' }}
         </div>
         <div class="text-sm text-gray-400 mt-1">
@@ -49,7 +49,7 @@
       <!-- KPI 3 -->
       <div class="group bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-5 hover:border-f1-red/30 transition-all duration-300">
         <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Leader Constructeurs</div>
-        <div class="text-xl md:text-2xl font-display font-bold italic text-white truncate group-hover:text-f1-red transition-colors">
+        <div class="text-lg sm:text-xl md:text-2xl font-display font-bold italic text-white break-words group-hover:text-f1-red transition-colors">
           {{ kpi.leaderConstructorName || '—' }}
         </div>
         <div class="text-sm text-gray-400 mt-1">
@@ -68,15 +68,15 @@
     </div>
 
     <!-- CONTENT GRID -->
-    <div class="grid gap-8 md:gap-12">
+    <div class="grid grid-cols-1 gap-8 md:gap-12">
       <!-- DRIVERS POINTS -->
-      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8">
+      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-4 sm:p-6 md:p-8">
         <div class="flex items-center justify-between gap-3 mb-6">
           <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
             <span class="w-1 h-6 bg-f1-red rounded-full"></span>
             Points des pilotes
           </h2>
-          <span class="px-3 py-1 rounded-full bg-white/5 text-xs font-bold text-gray-400 border border-white/10">
+          <span class="shrink-0 whitespace-nowrap px-3 py-1 rounded-full bg-white/5 text-xs font-bold text-gray-400 border border-white/10">
             Total: {{ drivers.length || 0 }}
           </span>
         </div>
@@ -93,13 +93,13 @@
       </div>
 
       <!-- CONSTRUCTORS POINTS -->
-      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8">
+      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-4 sm:p-6 md:p-8">
         <div class="flex items-center justify-between gap-3 mb-6">
           <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
             <span class="w-1 h-6 bg-f1-red rounded-full"></span>
             Points des constructeurs
           </h2>
-          <span class="px-3 py-1 rounded-full bg-white/5 text-xs font-bold text-gray-400 border border-white/10">
+          <span class="shrink-0 whitespace-nowrap px-3 py-1 rounded-full bg-white/5 text-xs font-bold text-gray-400 border border-white/10">
             Écuries: {{ constructors.length || 0 }}
           </span>
         </div>
@@ -119,35 +119,35 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- TOP DRIVERS -->
         <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden">
-          <div class="p-6 border-b border-white/5">
+          <div class="p-4 sm:p-6 border-b border-white/5">
             <h2 class="text-xl font-display font-bold italic text-white">Top 5 Pilotes</h2>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left">
               <thead class="bg-white/5 text-gray-400 text-xs uppercase tracking-wider font-medium">
                 <tr>
-                  <th class="px-6 py-4">#</th>
-                  <th class="px-6 py-4">Pilote</th>
-                  <th class="px-6 py-4 text-right">Points</th>
-                  <th class="px-6 py-4 text-right">Victoires</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4">#</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4">Pilote</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4 text-right">Points</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4 text-right">Victoires</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-white/5">
                 <tr v-for="driver in topDrivers" :key="driver.position" class="hover:bg-white/5 transition-colors group">
-                  <td class="px-6 py-4">
+                  <td class="px-3 sm:px-6 py-3 sm:py-4">
                     <span class="font-display font-bold italic text-lg" :class="getPosColor(driver.position)">{{ driver.position }}</span>
                   </td>
-                  <td class="px-6 py-4">
+                  <td class="px-3 sm:px-6 py-3 sm:py-4">
                     <div class="font-bold text-white group-hover:text-f1-red transition-colors">
                       {{ driver.Driver.givenName }} {{ driver.Driver.familyName }}
                     </div>
                     <div class="text-xs text-gray-400">{{ driver.Constructors?.[0]?.name || '—' }}</div>
                   </td>
-                  <td class="px-6 py-4 text-right font-bold text-white">{{ driver.points }}</td>
-                  <td class="px-6 py-4 text-right text-gray-400">{{ driver.wins }}</td>
+                  <td class="px-3 sm:px-6 py-3 sm:py-4 text-right font-bold text-white">{{ driver.points }}</td>
+                  <td class="px-3 sm:px-6 py-3 sm:py-4 text-right text-gray-400">{{ driver.wins }}</td>
                 </tr>
                 <tr v-if="!topDrivers.length">
-                  <td colspan="4" class="px-6 py-8 text-center text-gray-400">Aucune donnée</td>
+                  <td colspan="4" class="px-3 sm:px-6 py-8 text-center text-gray-400">Aucune donnée</td>
                 </tr>
               </tbody>
             </table>
@@ -156,34 +156,34 @@
 
         <!-- TOP CONSTRUCTORS -->
         <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden">
-          <div class="p-6 border-b border-white/5">
+          <div class="p-4 sm:p-6 border-b border-white/5">
             <h2 class="text-xl font-display font-bold italic text-white">Top 5 Constructeurs</h2>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left">
               <thead class="bg-white/5 text-gray-400 text-xs uppercase tracking-wider font-medium">
                 <tr>
-                  <th class="px-6 py-4">#</th>
-                  <th class="px-6 py-4">Écurie</th>
-                  <th class="px-6 py-4 text-right">Points</th>
-                  <th class="px-6 py-4 text-right">Victoires</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4">#</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4">Écurie</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4 text-right">Points</th>
+                  <th class="px-3 sm:px-6 py-3 sm:py-4 text-right">Victoires</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-white/5">
                 <tr v-for="constructor in topConstructors" :key="constructor.position" class="hover:bg-white/5 transition-colors group">
-                  <td class="px-6 py-4">
+                  <td class="px-3 sm:px-6 py-3 sm:py-4">
                     <span class="font-display font-bold italic text-lg" :class="getPosColor(constructor.position)">{{ constructor.position }}</span>
                   </td>
-                  <td class="px-6 py-4">
+                  <td class="px-3 sm:px-6 py-3 sm:py-4">
                     <div class="font-bold text-white group-hover:text-f1-red transition-colors">
                       {{ constructor.Constructor.name }}
                     </div>
                   </td>
-                  <td class="px-6 py-4 text-right font-bold text-white">{{ constructor.points }}</td>
-                  <td class="px-6 py-4 text-right text-gray-400">{{ constructor.wins }}</td>
+                  <td class="px-3 sm:px-6 py-3 sm:py-4 text-right font-bold text-white">{{ constructor.points }}</td>
+                  <td class="px-3 sm:px-6 py-3 sm:py-4 text-right text-gray-400">{{ constructor.wins }}</td>
                 </tr>
                 <tr v-if="!topConstructors.length">
-                  <td colspan="4" class="px-6 py-8 text-center text-gray-400">Aucune donnée</td>
+                  <td colspan="4" class="px-3 sm:px-6 py-8 text-center text-gray-400">Aucune donnée</td>
                 </tr>
               </tbody>
             </table>
@@ -192,13 +192,13 @@
       </div>
 
       <!-- WINS -->
-      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 md:p-8">
+      <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 p-4 sm:p-6 md:p-8">
         <div class="flex items-center justify-between gap-3 mb-6">
           <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
             <span class="w-1 h-6 bg-f1-red rounded-full"></span>
             Victoires des pilotes
           </h2>
-          <span v-if="kpi.maxWins !== null" class="px-3 py-1 rounded-full bg-f1-red/10 text-xs font-bold text-f1-red border border-f1-red/20">
+          <span v-if="kpi.maxWins !== null" class="shrink-0 whitespace-nowrap px-3 py-1 rounded-full bg-f1-red/10 text-xs font-bold text-f1-red border border-f1-red/20">
             Max: {{ kpi.maxWins }}
           </span>
         </div>
@@ -216,13 +216,13 @@
 
       <!-- SEASON PROGRESS -->
       <div class="bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden">
-        <div class="p-6 border-b border-white/5">
+        <div class="p-4 sm:p-6 border-b border-white/5">
           <h2 class="text-2xl font-display font-bold italic text-white flex items-center gap-3">
              <span class="w-1 h-6 bg-f1-red rounded-full"></span>
              Résultats par course
           </h2>
           <div class="flex items-center gap-2">
-            <YearSelector :year="historyYear" @update:year="updateHistoryYear" class="!mb-0 scale-90 origin-right" />
+            <YearSelector :year="historyYear" @update:year="updateHistoryYear" class="!mb-0 lg:scale-90 origin-right" />
           </div>
         </div>
         <div class="p-0">

@@ -1,7 +1,7 @@
 <template>
   <div class="page-container">
     <!-- Loading state -->
-    <div v-if="loading" class="grid gap-4">
+    <div v-if="loading" class="grid grid-cols-1 gap-4">
       <div class="skeleton h-56 w-full bg-f1-dark-gray/60 rounded-3xl"></div>
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         <div class="skeleton h-32 w-full bg-f1-dark-gray/60 rounded-2xl"></div>
@@ -20,7 +20,7 @@
     </div>
 
     <!-- Dashboard -->
-    <div v-else class="grid gap-6">
+    <div v-else class="grid grid-cols-1 gap-6">
       <!-- Hero -->
       <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-f1-dark-gray shadow-2xl">
         <div class="absolute inset-0">
@@ -123,8 +123,8 @@
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-display font-bold text-white">Évolution des points par saison</h2>
             <div class="join">
-              <button class="btn btn-xs join-item" :class="chartType==='bar' ? 'btn-primary' : 'btn-ghost text-white/60'" @click="chartType='bar'">Barres</button>
-              <button class="btn btn-xs join-item" :class="chartType==='line' ? 'btn-primary' : 'btn-ghost text-white/60'" @click="chartType='line'">Ligne</button>
+              <button type="button" class="btn btn-sm h-11 min-h-11 lg:h-8 lg:min-h-8 join-item" :class="chartType==='bar' ? 'btn-primary' : 'btn-ghost text-white/60'" :aria-pressed="chartType==='bar'" @click="chartType='bar'">Barres</button>
+              <button type="button" class="btn btn-sm h-11 min-h-11 lg:h-8 lg:min-h-8 join-item" :class="chartType==='line' ? 'btn-primary' : 'btn-ghost text-white/60'" :aria-pressed="chartType==='line'" @click="chartType='line'">Ligne</button>
             </div>
           </div>
 
@@ -157,15 +157,16 @@
 
       <!-- Seasons table -->
       <div class="rounded-2xl border border-white/10 bg-f1-dark-gray/60 backdrop-blur-md p-5 shadow-lg">
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
           <h2 class="text-lg font-display font-bold text-white">Historique par saison</h2>
-          <div class="tabs tabs-boxed bg-f1-black/40">
-            <a class="tab" :class="{ 'tab-active': seasonsSort==='desc' }" @click="seasonsSort='desc'">Récent → Ancien</a>
-            <a class="tab" :class="{ 'tab-active': seasonsSort==='asc' }" @click="seasonsSort='asc'">Ancien → Récent</a>
+          <div class="tabs tabs-boxed bg-f1-black/40" role="group" aria-label="Ordre du tableau">
+            <button type="button" class="tab min-h-11 lg:min-h-0" :class="{ 'tab-active': seasonsSort==='desc' }" :aria-pressed="seasonsSort==='desc'" @click="seasonsSort='desc'">Récent → Ancien</button>
+            <button type="button" class="tab min-h-11 lg:min-h-0" :class="{ 'tab-active': seasonsSort==='asc' }" :aria-pressed="seasonsSort==='asc'" @click="seasonsSort='asc'">Ancien → Récent</button>
           </div>
         </div>
-        <div class="overflow-x-auto">
-          <table class="table">
+        <!-- Tableau à 9 colonnes : défilement horizontal voulu dans son propre cadre, colonnes sans retour à la ligne -->
+        <div class="overflow-x-auto" role="region" tabindex="0" aria-label="Historique par saison, défilement horizontal possible">
+          <table class="table whitespace-nowrap">
             <thead>
               <tr class="text-gray-400 text-xs uppercase tracking-widest border-white/10">
                 <th>Saison</th>
@@ -241,8 +242,8 @@
         <div class="rounded-2xl border border-white/10 bg-f1-dark-gray/60 backdrop-blur-md p-5 shadow-lg">
           <h2 class="text-lg font-display font-bold text-white mb-4">Liens rapides</h2>
           <div class="flex flex-wrap gap-2">
-            <NuxtLink :to="{ path: '/compare/drivers', query: { d1: String(route.params.id), year: String(lastSeason) } }" class="btn btn-sm btn-primary">Comparer avec un autre pilote</NuxtLink>
-            <a v-if="profile?.url" :href="profile.url" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline border-white/20 text-white/70">Profil officiel</a>
+            <NuxtLink :to="{ path: '/compare/drivers', query: { d1: String(route.params.id), year: String(lastSeason) } }" class="btn btn-sm h-11 min-h-11 lg:h-8 lg:min-h-8 btn-primary">Comparer avec un autre pilote</NuxtLink>
+            <a v-if="profile?.url" :href="profile.url" target="_blank" rel="noopener noreferrer" class="btn btn-sm h-11 min-h-11 lg:h-8 lg:min-h-8 btn-outline border-white/20 text-white/70">Profil officiel</a>
           </div>
         </div>
       </div>

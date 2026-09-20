@@ -1,6 +1,6 @@
 <template>
   <div class="page-container">
-    <div class="grid gap-6">
+    <div class="grid grid-cols-1 gap-6">
       <!-- Hero / Search -->
       <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-f1-dark-gray shadow-2xl px-6 py-10 md:px-10 md:py-14">
         <div class="absolute inset-0 bg-gradient-to-br from-f1-red/10 via-transparent to-transparent"></div>
@@ -53,10 +53,10 @@
             <h2 class="text-xl md:text-2xl font-display font-bold text-white mt-1">{{ activeRecord.title }}</h2>
             <p class="text-sm text-white/50 mt-1">{{ activeRecord.description }}</p>
           </div>
-          <button class="btn btn-sm btn-ghost text-white/50" @click="clearRecord">✕</button>
+          <button type="button" class="btn btn-ghost h-11 min-h-11 w-11 p-0 shrink-0 text-white/70 hover:text-white" aria-label="Fermer ce record" @click="clearRecord"><span aria-hidden="true">✕</span></button>
         </div>
 
-        <div v-if="leaderboardLoading" class="grid gap-2">
+        <div v-if="leaderboardLoading" class="grid grid-cols-1 gap-2">
           <div v-for="i in 5" :key="i" class="skeleton h-12 w-full bg-white/5 rounded-xl"></div>
         </div>
         <div v-else-if="leaderboardError" class="text-white/50 text-sm py-6 text-center">Erreur lors du chargement du classement.</div>

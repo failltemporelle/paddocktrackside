@@ -1,10 +1,18 @@
 <template>
-  <div class="overflow-x-auto bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5">
+  <div>
+    <!-- Matrice pilotes x courses : le défilement horizontal est voulu, les colonnes Pilote et Pts restent collées -->
+    <p class="sm:hidden px-4 pt-3 pb-1 text-xs text-gray-400">Faites glisser le tableau horizontalement pour voir toutes les courses.</p>
+    <div
+      class="overflow-x-auto bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5"
+      role="region"
+      tabindex="0"
+      aria-label="Résultats de chaque pilote course par course, défilement horizontal possible"
+    >
     <table class="min-w-max text-center text-sm border-collapse">
       <!-- HEADER -->
       <thead class="bg-white/5 text-xs uppercase text-gray-400 font-bold sticky top-0 z-30">
         <tr>
-          <th class="p-3 sticky left-0 z-40 bg-[#1e1e24] border-r border-white/10 text-left w-48 shadow-[2px_0_5px_rgba(0,0,0,0.2)]">
+          <th class="p-2 sm:p-3 sticky left-0 z-40 bg-[#1e1e24] border-r border-white/10 text-left w-24 sm:w-48 shadow-[2px_0_5px_rgba(0,0,0,0.2)]">
             Pilote
           </th>
           <th 
@@ -20,7 +28,7 @@
               :title="race.Circuit.Location.country"
             />
           </th>
-          <th class="p-3 sticky right-0 z-40 bg-[#1e1e24] border-l border-white/10 font-bold text-white w-20 shadow-[-2px_0_5px_rgba(0,0,0,0.2)]">
+          <th class="p-2 sm:p-3 sticky right-0 z-40 bg-[#1e1e24] border-l border-white/10 font-bold text-white w-14 sm:w-20 shadow-[-2px_0_5px_rgba(0,0,0,0.2)]">
             Pts
           </th>
         </tr>
@@ -35,8 +43,8 @@
         >
           <!-- DRIVER INFO -->
           <td class="p-2 sticky left-0 z-30 bg-[#15151e] group-hover:bg-[#1f1f26] border-r border-white/10 text-left shadow-[2px_0_5px_rgba(0,0,0,0.2)]">
-            <div class="flex items-center gap-3">
-              <span class="font-display font-bold italic text-white w-6 text-right">{{ driverRow.position }}</span>
+            <div class="flex items-center gap-2 sm:gap-3">
+              <span class="font-display font-bold italic text-white w-5 sm:w-6 text-right">{{ driverRow.position }}</span>
               <span class="w-1 h-8 rounded-full" :class="getTeamColor(driverRow.constructorId)"></span>
               <div class="flex flex-col">
                 <span class="font-bold text-white group-hover:text-f1-red transition-colors">
@@ -68,6 +76,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </template>
 

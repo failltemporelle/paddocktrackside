@@ -1,4 +1,6 @@
-/* 3D Card Hover Effect */
+/* 3D Card Hover Effect
+   Réservé à md+ : sur mobile, les cartes classement sont des lignes compactes sans survol 3D. */
+@media (min-width: 768px) {
 .hover-3d {
     position: relative;
     perspective: 1000px;
@@ -109,4 +111,5 @@
 
 .hover-3d>div:nth-child(10):hover~figure {
     transform: rotateX(-10deg) rotateY(10deg);
+}
 }

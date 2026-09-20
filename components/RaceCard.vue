@@ -11,7 +11,29 @@
     <!-- Hover Gradient -->
     <div v-if="isPastRace" class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-    <div class="p-6 relative z-10">
+    <!-- Mobile (< 768 px) : carte compacte, course + date + statut, détails du circuit en ligne secondaire -->
+    <div class="md:hidden p-4 relative z-10">
+      <div class="flex justify-between items-start gap-3">
+        <div class="min-w-0">
+          <p class="text-xs font-bold tracking-widest text-f1-red uppercase">Round {{ race.round }} · {{ formatShortDate(race.date) }}</p>
+          <h2 class="mt-1 text-lg font-display font-bold italic text-white leading-tight break-words">{{ race.raceName }}</h2>
+        </div>
+        <span
+          v-if="isPastRace"
+          class="shrink-0 px-2 py-1 rounded text-xs font-bold bg-white/10 text-gray-300 border border-white/10"
+        >Terminé</span>
+        <span
+          v-else
+          class="shrink-0 px-2 py-1 rounded text-xs font-bold bg-f1-red-action text-white"
+        >À venir</span>
+      </div>
+      <p class="mt-2 text-xs text-gray-300">
+        {{ race.Circuit.circuitName }} · {{ race.Circuit.Location.country }} · {{ formatTime(race.time) }}
+      </p>
+    </div>
+
+    <!-- md+ : carte complète -->
+    <div class="hidden md:block p-6 relative z-10">
       <div class="flex justify-between items-start mb-4">
         <div class="flex flex-col">
           <span class="text-xs font-bold tracking-widest text-f1-red uppercase mb-1">Round {{ race.round }}</span>
@@ -68,6 +90,10 @@ const props = defineProps({
 
 const NuxtLink = resolveComponent('NuxtLink')
 const { formatDate, formatTime } = useRaceData()
+
+// Date courte pour la carte compacte mobile (ex. « 2 mars 2024 »)
+const formatShortDate = (date: string) =>
+  new Date(date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 
 const isPastRace = computed(() => {
   const raceDate = new Date(`${props.race.date}T${props.race.time || '00:00:00'}`)

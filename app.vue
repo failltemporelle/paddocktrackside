@@ -1,5 +1,5 @@
 <template>
-  <div data-theme="f1theme" class="min-h-screen bg-f1-black text-white selection:bg-f1-red selection:text-white flex flex-col">
+  <div data-theme="f1theme" class="min-h-screen bg-f1-black text-white selection:bg-f1-red selection:text-white flex flex-col overflow-x-clip">
     <!-- Lien d'évitement : premier élément focalisable de la page -->
     <a
       href="#main"
@@ -57,7 +57,7 @@
           </div>
 
           <!-- brand -->
-          <NuxtLink to="/" class="btn btn-ghost text-xl font-display font-bold italic tracking-wider hover:bg-transparent pl-2" aria-label="Paddock Track Side, accueil">
+          <NuxtLink to="/" class="btn btn-ghost text-base min-[360px]:text-xl font-display font-bold italic tracking-wider hover:bg-transparent pl-2" aria-label="Paddock Track Side, accueil">
             PADDOCK<span class="text-f1-red">TRACKSIDE</span>
           </NuxtLink>
         </div>
@@ -74,7 +74,7 @@
     </header>
 
     <!-- Main Content -->
-    <main id="main" tabindex="-1" class="flex-grow relative z-10 container mx-auto px-4 py-6 focus:outline-none">
+    <main id="main" tabindex="-1" class="flex-grow relative z-10 container py-6 focus:outline-none">
       <NuxtPage />
     </main>
 
@@ -241,6 +241,6 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 .footer-link {
-  @apply inline-block py-2 text-sm font-medium text-gray-300 text-left transition-colors hover:text-white;
+  @apply inline-flex items-center min-h-11 py-2 text-sm font-medium text-gray-300 text-left transition-colors hover:text-white;
 }
 </style>

@@ -1,20 +1,17 @@
 <template>
-  <section class="py-20 md:py-28 bg-f1-black relative overflow-hidden">
+  <section class="py-10 md:py-28 bg-f1-black relative overflow-hidden">
     <!-- Decor -->
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-f1-red/5 rounded-full blur-[130px] pointer-events-none"></div>
     <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
-    <div class="container mx-auto px-6 md:px-12 relative z-10">
+    <div class="container mx-auto px-0 sm:px-6 md:px-12 relative z-10">
       <!-- Header -->
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm font-medium text-gray-300 mb-6 backdrop-blur-md">
-          <span class="w-2 h-2 rounded-full bg-f1-red animate-pulse"></span>
-          Saison {{ currentYear }}
-        </div>
-        <h2 class="text-4xl md:text-6xl font-display font-bold italic text-white tracking-tight mb-6">
+      <!-- En-tête : le badge « Saison » était redondant avec celui du hero (supprimé) -->
+      <div class="text-center max-w-3xl mx-auto mb-8 md:mb-16">
+        <h2 class="text-3xl md:text-6xl font-display font-bold italic text-white tracking-tight mb-3 md:mb-6">
           LE <span class="text-f1-red">PADDOCK</span> EN DIRECT
         </h2>
-        <p class="text-xl text-gray-400 font-light">
+        <p class="text-base md:text-xl text-gray-400 font-light">
           L'essentiel de la saison en un coup d'œil : pilotes, écuries et calendrier.
         </p>
       </div>
@@ -34,8 +31,15 @@
 
         <!-- NEXT RACE -->
         <div class="card bg-f1-dark-gray/40 backdrop-blur-md border border-white/5 rounded-3xl overflow-hidden relative group hover:border-f1-red/30 transition-all duration-500">
-          <div class="absolute inset-0 opacity-10">
-            <img v-if="nextRace" :src="nextRaceCircuitImage" :alt="nextRace.Circuit.circuitName" class="w-full h-full object-contain object-right p-6" />
+          <!-- Tracé du circuit en filigrane : décoratif, absent si l'image n'existe pas ou ne se charge pas -->
+          <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+            <img
+              v-if="nextRace && nextRaceCircuitImage"
+              :src="nextRaceCircuitImage"
+              alt=""
+              class="w-full h-full object-contain object-right p-6"
+              @error="($event.target as HTMLImageElement).style.display = 'none'"
+            />
           </div>
           <div class="card-body relative z-10">
             <div class="flex items-center justify-between mb-2">
@@ -50,8 +54,9 @@
               <div class="flex items-center gap-2 text-gray-400 text-sm mb-6">
                 <img
                   :src="`https://flagcdn.com/w40/${getCountryCode(nextRace.Circuit.Location.country)}.png`"
-                  :alt="nextRace.Circuit.Location.country"
+                  alt=""
                   class="h-3 w-5 object-cover rounded shadow-sm"
+                  @error="($event.target as HTMLImageElement).style.display = 'none'"
                 />
                 <span>{{ nextRace.Circuit.circuitName }} · {{ nextRace.Circuit.Location.country }}</span>
               </div>
@@ -77,7 +82,7 @@
               </div>
             </template>
 
-            <NuxtLink to="/races" class="btn btn-sm bg-white/5 border-white/10 text-white hover:bg-f1-red-action hover:border-f1-red-action rounded-lg mt-6 self-start">
+            <NuxtLink to="/races" class="btn btn-sm h-11 min-h-11 lg:h-8 lg:min-h-8 bg-white/5 border-white/10 text-white hover:bg-f1-red-action hover:border-f1-red-action rounded-lg mt-6 self-start">
               Voir le calendrier
             </NuxtLink>
           </div>
@@ -119,7 +124,7 @@
           <div class="card-body">
             <div class="flex items-center justify-between mb-4">
               <span class="text-xs font-bold tracking-widest text-f1-red uppercase">Top 5 pilotes</span>
-              <NuxtLink to="/standings" class="text-xs font-bold text-gray-400 hover:text-white transition-colors">Tout voir →</NuxtLink>
+              <NuxtLink to="/standings" class="inline-flex items-center min-h-11 -my-3 -mr-2 px-2 text-xs font-bold text-gray-300 hover:text-white transition-colors">Tout voir →</NuxtLink>
             </div>
 
             <div class="flex flex-col divide-y divide-white/5">
@@ -143,11 +148,11 @@
                 </div>
 
                 <div class="flex flex-col flex-grow min-w-0">
-                  <span class="font-bold text-white truncate group-hover/row:text-f1-red transition-colors">
+                  <span class="font-bold text-white break-words group-hover/row:text-f1-red transition-colors">
                     {{ driver.Driver.givenName }} {{ driver.Driver.familyName }}
                   </span>
-                  <span class="flex items-center gap-1.5 text-xs text-gray-400 truncate">
-                    <span class="w-1.5 h-1.5 rounded-full" :style="`background-color: ${getTeamColor(driver.Constructors[0]?.constructorId)}`"></span>
+                  <span class="flex items-center gap-1.5 text-xs text-gray-400">
+                    <span class="w-1.5 h-1.5 shrink-0 rounded-full" :style="`background-color: ${getTeamColor(driver.Constructors[0]?.constructorId)}`"></span>
                     {{ driver.Constructors[0]?.name }}
                   </span>
                 </div>
@@ -163,7 +168,7 @@
           <div class="card-body">
             <div class="flex items-center justify-between mb-4">
               <span class="text-xs font-bold tracking-widest text-f1-red uppercase">Top 3 écuries</span>
-              <NuxtLink to="/standings" class="text-xs font-bold text-gray-400 hover:text-white transition-colors">Tout voir →</NuxtLink>
+              <NuxtLink to="/standings" class="inline-flex items-center min-h-11 -my-3 -mr-2 px-2 text-xs font-bold text-gray-300 hover:text-white transition-colors">Tout voir →</NuxtLink>
             </div>
 
             <div class="flex flex-col divide-y divide-white/5">
@@ -184,7 +189,7 @@
                 </div>
 
                 <div class="flex flex-col flex-grow min-w-0">
-                  <span class="font-bold text-white truncate">{{ team.Constructor.name }}</span>
+                  <span class="font-bold text-white break-words">{{ team.Constructor.name }}</span>
                   <span class="flex items-center gap-1.5 text-xs text-gray-400">
                     <span class="w-1.5 h-1.5 rounded-full" :style="`background-color: ${getTeamColor(team.Constructor.constructorId)}`"></span>
                     {{ team.wins }} victoire{{ Number(team.wins) > 1 ? 's' : '' }}
@@ -231,7 +236,9 @@ const nextRace = computed(() => {
 
 const nextRaceCircuitImage = computed(() => {
   if (!nextRace.value) return ''
-  return getCircuitImage(nextRace.value.Circuit.circuitId).value
+  const src = getCircuitImage(nextRace.value.Circuit.circuitId).value
+  // Le visuel par défaut (/images/circuit-placeholder.png) n'existe pas dans le projet : on n'affiche rien
+  return src.includes('circuit-placeholder') ? '' : src
 })
 
 const totalRaces = computed(() => races.value.length)

@@ -10,7 +10,7 @@
           :href="circuit.url" 
           target="_blank" 
           rel="noopener noreferrer"
-          class="btn btn-sm bg-white/5 hover:bg-white/10 text-white border-none gap-2 rounded-lg"
+          class="btn btn-sm h-11 min-h-11 min-w-11 lg:h-8 lg:min-h-8 bg-white/5 hover:bg-white/10 text-white border-none gap-2 rounded-lg"
           title="Détails du circuit"
         >
           <ArrowTopRightOnSquareIcon class="w-4 h-4" />

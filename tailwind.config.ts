@@ -3,13 +3,20 @@ import type { Config } from 'tailwindcss'
 export default {
   content: [],
   theme: {
+    // Conteneur centré, marge latérale de 16 px sur mobile.
+    // Les max-width par palier (640/768/1024/1280/1440) viennent des breakpoints ci-dessous.
+    container: {
+      center: true,
+      padding: '1rem',
+    },
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Montserrat', 'system-ui', 'sans-serif']
       },
+      // Le breakpoint 'xs' (320px) a été retiré : il plafonnait `.container` à 320px sur tous les téléphones.
+      // Aucun usage de `xs:` dans le code.
       screens: {
-        'xs': '320px',
         'sm': '640px',
         'md': '768px',
         'lg': '1024px',

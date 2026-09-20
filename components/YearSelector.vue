@@ -1,31 +1,37 @@
 <template>
-  <div class="flex items-center gap-2 mb-4">
-    <button 
-      class="btn btn-circle btn-sm" 
+  <div class="flex items-center gap-2 mb-4 max-w-full">
+    <!-- Cibles tactiles 44 px sur mobile ; taille compacte d'origine à partir de lg -->
+    <button
+      type="button"
+      class="btn btn-circle shrink-0 h-11 w-11 min-h-11 lg:h-8 lg:w-8 lg:min-h-8"
+      aria-label="Saison précédente"
       @click="changeYear(-1)"
       :disabled="selectedYear <= minYear"
     >
-      ❮
+      <span aria-hidden="true">❮</span>
     </button>
-    <select 
-      v-model="selectedYear" 
-      class="select select-bordered"
+    <select
+      v-model="selectedYear"
+      class="select select-bordered min-w-0 flex-1 sm:flex-none"
+      aria-label="Saison"
       @change="$emit('update:year', selectedYear)"
     >
-      <option 
-        v-for="year in availableYears" 
-        :key="year" 
+      <option
+        v-for="year in availableYears"
+        :key="year"
         :value="year"
       >
         Saison {{ year }}
       </option>
     </select>
-    <button 
-      class="btn btn-circle btn-sm" 
+    <button
+      type="button"
+      class="btn btn-circle shrink-0 h-11 w-11 min-h-11 lg:h-8 lg:w-8 lg:min-h-8"
+      aria-label="Saison suivante"
       @click="changeYear(1)"
       :disabled="selectedYear >= currentYear"
     >
-      ❯
+      <span aria-hidden="true">❯</span>
     </button>
   </div>
 </template>

@@ -11,7 +11,38 @@
     <div></div>
     <div></div>
 
-    <figure class="relative h-full bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-f1-red/50 hover:shadow-[0_0_30px_rgba(255,24,1,0.15)]">
+    <!-- Mobile (< 768 px) : ligne compacte -->
+    <div class="md:hidden flex items-center gap-3 min-h-16 px-3 py-2 rounded-xl bg-f1-dark-gray/40 border border-white/5 active:border-f1-red/50">
+      <span class="w-7 shrink-0 text-center font-display font-bold italic text-xl leading-none" :class="positionClass">{{ team.position }}</span>
+      <div class="w-14 h-10 shrink-0 rounded-lg bg-black/30 border border-white/10 flex items-center justify-center overflow-hidden">
+        <img
+          :src="compactImage"
+          alt=""
+          loading="lazy"
+          class="w-full h-full object-contain p-1"
+          @error="compactImage = ''"
+          v-show="compactImage"
+        />
+      </div>
+      <div class="min-w-0 flex-1">
+        <p class="font-display font-bold italic uppercase tracking-wide text-white text-base leading-tight break-words">{{ team.Constructor.name }}</p>
+        <p class="flex items-center gap-1.5 mt-0.5 text-xs text-gray-300 leading-tight">
+          <span
+            class="w-1.5 h-3 shrink-0 rounded-full"
+            :style="`background: ${constructorColors[team.Constructor.constructorId]?.primary || '#666'}`"
+            aria-hidden="true"
+          ></span>
+          <span>{{ team.wins }} victoire{{ Number(team.wins) > 1 ? 's' : '' }}</span>
+        </p>
+      </div>
+      <p class="shrink-0 text-right leading-none">
+        <span class="block text-xl font-bold text-white tabular-nums">{{ team.points }}</span>
+        <span class="block mt-1 text-xs uppercase tracking-wider text-gray-300">pts</span>
+      </p>
+    </div>
+
+    <!-- md+ : carte riche -->
+    <figure class="hidden md:block relative h-full bg-f1-dark-gray/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden transition-all duration-500 hover:border-f1-red/50 hover:shadow-[0_0_30px_rgba(255,24,1,0.15)]">
       
       <!-- Full Card Background/Image -->
       <div class="absolute inset-0 z-0 bg-f1-dark-gray">
@@ -50,13 +81,13 @@
           <!-- Top Left: Position -->
           <div class="flex flex-col items-center justify-center bg-f1-black/50 backdrop-blur-sm rounded-lg border border-white/10 px-3 py-1">
             <span class="text-3xl font-display font-bold italic text-white leading-none">{{ team.position }}</span>
-            <span class="text-[10px] font-bold tracking-widest text-white/60 uppercase">Pos</span>
+            <span class="text-xs font-bold tracking-widest text-white/60 uppercase">Pos</span>
           </div>
 
           <!-- Top Right: Points -->
           <div class="flex flex-col items-end justify-center bg-f1-red-action rounded-lg border border-f1-red-action px-3 py-1 shadow-[0_0_15px_rgba(255,24,1,0.4)]">
             <span class="text-2xl font-bold text-white leading-none">{{ team.points }}</span>
-            <span class="text-[10px] font-bold tracking-widest text-white uppercase">PTS</span>
+            <span class="text-xs font-bold tracking-widest text-white uppercase">PTS</span>
           </div>
         </div>
 
@@ -88,7 +119,7 @@
                      :style="`background: ${constructorColors[team.Constructor.constructorId]?.primary || '#666'}; box-shadow: 0 0 10px ${constructorColors[team.Constructor.constructorId]?.primary || '#666'}80`">
                 </div>
                 <div class="flex flex-col items-start leading-none">
-                  <span class="text-[10px] text-gray-400 font-bold uppercase">Victoires</span>
+                  <span class="text-xs text-gray-400 font-bold uppercase">Victoires</span>
                   <span class="text-sm font-bold text-white">{{ team.wins }}</span>
                 </div>
              </div>
@@ -120,6 +151,16 @@ const { getConstructorImage } = useConstructorImages()
 const constructorImage = getConstructorImage(props.team.Constructor.constructorId)
 const showPlaceholder = ref(false)
 const loading = ref(true)
+
+// Ligne compacte mobile : mini visuel de la monoplace (masqué s'il est introuvable)
+const compactImage = ref(constructorImage.value)
+const positionClass = computed(() => {
+  const pos = Number(props.team.position)
+  if (pos === 1) return 'text-yellow-400'
+  if (pos === 2) return 'text-gray-300'
+  if (pos === 3) return 'text-amber-600'
+  return 'text-white'
+})
 
 const handleImageError = () => {
   showPlaceholder.value = true

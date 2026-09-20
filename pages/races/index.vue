@@ -1,6 +1,7 @@
 <template>
-  <div class="container mx-auto p-4">
-    <div class="flex items-center justify-between mb-6">
+  <div class="py-4 md:px-4">
+    <!-- Mobile : titre puis sélecteur d'année en dessous (plus de chevauchement) ; sm+ : sur une ligne -->
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6">
       <h1 class="text-3xl font-bold">Calendrier F1 {{ selectedYear }}</h1>
       <YearSelector 
         :year="selectedYear" 
@@ -16,7 +17,7 @@
       <span>{{ error }}</span>
     </div>
     
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
       <RaceCard 
         v-for="race in races" 
         :key="race.round" 

@@ -12,7 +12,7 @@
     </header>
 
     <!-- Sélection -->
-    <section aria-labelledby="cmp-selection-title" class="surface p-5 md:p-6">
+    <section aria-labelledby="cmp-selection-title" class="surface p-4 sm:p-5 md:p-6">
       <h2 id="cmp-selection-title" class="sr-only">Sélection de la saison et des pilotes</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -149,7 +149,7 @@
           />
           <div class="min-w-0">
             <h2 class="text-xl md:text-2xl font-display font-bold italic text-white leading-tight">
-              <NuxtLink :to="`/drivers/${side.driver.driverId}`" class="hover:text-f1-red transition-colors">
+              <NuxtLink :to="`/drivers/${side.driver.driverId}`" class="inline-flex items-center min-h-11 hover:text-f1-red transition-colors">
                 {{ side.driver.givenName }} {{ side.driver.familyName }}
               </NuxtLink>
             </h2>
@@ -176,7 +176,7 @@
       </p>
 
       <!-- Statistiques de la saison -->
-      <section aria-labelledby="cmp-stats-title" class="surface p-5 md:p-6">
+      <section aria-labelledby="cmp-stats-title" class="surface p-4 sm:p-5 md:p-6">
         <h2 id="cmp-stats-title" class="cmp-section-title">
           <span class="w-1 h-6 bg-f1-red rounded-full" aria-hidden="true"></span>
           Statistiques de la saison {{ year }}
@@ -217,7 +217,7 @@
       </section>
 
       <!-- Duel direct -->
-      <section v-if="duel" aria-labelledby="cmp-duel-title" class="surface p-5 md:p-6">
+      <section v-if="duel" aria-labelledby="cmp-duel-title" class="surface p-4 sm:p-5 md:p-6">
         <h2 id="cmp-duel-title" class="cmp-section-title">
           <span class="w-1 h-6 bg-f1-red rounded-full" aria-hidden="true"></span>
           Duel direct
@@ -240,7 +240,7 @@
       </section>
 
       <!-- Points cumulés -->
-      <section v-if="roundRows.length" aria-labelledby="cmp-chart-title" class="surface p-5 md:p-6">
+      <section v-if="roundRows.length" aria-labelledby="cmp-chart-title" class="surface p-4 sm:p-5 md:p-6">
         <h2 id="cmp-chart-title" class="cmp-section-title">
           <span class="w-1 h-6 bg-f1-red rounded-full" aria-hidden="true"></span>
           Points cumulés au fil de la saison
@@ -254,13 +254,48 @@
       </section>
 
       <!-- Course par course -->
-      <section v-if="roundRows.length" aria-labelledby="cmp-rounds-title" class="surface p-5 md:p-6">
+      <section v-if="roundRows.length" aria-labelledby="cmp-rounds-title" class="surface p-4 sm:p-5 md:p-6">
         <h2 id="cmp-rounds-title" class="cmp-section-title">
           <span class="w-1 h-6 bg-f1-red rounded-full" aria-hidden="true"></span>
           Résultats course par course
         </h2>
+        <!-- Mobile (< 768 px) : une carte par Grand Prix, un bloc par pilote, sans défilement latéral -->
+        <ol class="md:hidden space-y-3" aria-label="Résultats course par course">
+          <li v-for="row in roundRows" :key="row.round" class="rounded-xl bg-white/5 border border-white/10 p-3">
+            <NuxtLink
+              :to="`/races/${year}/${row.round}`"
+              class="flex items-center min-h-11 -my-1 font-semibold text-gray-200 hover:text-white hover:underline underline-offset-2"
+            >
+              <span class="text-gray-400 tabular-nums mr-1">{{ row.round }}.</span> {{ row.name }}
+            </NuxtLink>
+            <ul class="mt-1 divide-y divide-white/5">
+              <li
+                v-for="(entry, i) in [row.first, row.second]"
+                :key="i"
+                class="flex items-start justify-between gap-3 py-2"
+              >
+                <div class="min-w-0">
+                  <p class="text-sm font-medium" :class="row.winner === i ? 'text-white' : 'text-gray-300'">
+                    <span class="cmp-swatch" :class="i === 0 ? 'cmp-swatch-first' : 'cmp-swatch-second'" aria-hidden="true"></span>{{ sides[i].driver.familyName }}
+                  </p>
+                  <p class="text-sm text-gray-300 tabular-nums mt-0.5">
+                    <span class="text-gray-400">Qualif.</span> {{ entry?.qualifying ?? '—' }}<span v-if="!entry" class="sr-only">Absent</span>
+                    <span class="text-gray-400 mx-1" aria-hidden="true">·</span>
+                    <span class="text-gray-400">Arrivée</span>
+                    <span :class="row.winner === i ? 'text-white font-bold' : ''">{{ finishLabel(entry) }}</span>
+                  </p>
+                </div>
+                <p class="shrink-0 text-sm text-gray-300 tabular-nums">
+                  {{ entry ? formatNumber(entry.racePoints + entry.sprintPoints) : '—' }} <span class="text-xs text-gray-400">pts</span>
+                </p>
+              </li>
+            </ul>
+          </li>
+        </ol>
+
+        <!-- Tablette / bureau : tableau complet -->
         <div
-          class="overflow-x-auto"
+          class="hidden md:block overflow-x-auto"
           role="region"
           tabindex="0"
           aria-label="Résultats course par course, défilement horizontal possible"
@@ -291,7 +326,7 @@
             <tbody class="divide-y divide-white/5">
               <tr v-for="row in roundRows" :key="row.round">
                 <th scope="row" class="py-3 pr-3 font-medium text-gray-300">
-                  <NuxtLink :to="`/races/${year}/${row.round}`" class="hover:text-white hover:underline underline-offset-2">
+                  <NuxtLink :to="`/races/${year}/${row.round}`" class="inline-block py-3 -my-3 hover:text-white hover:underline underline-offset-2">
                     <span class="text-gray-400 tabular-nums">{{ row.round }}.</span> {{ row.name }}
                   </NuxtLink>
                 </th>

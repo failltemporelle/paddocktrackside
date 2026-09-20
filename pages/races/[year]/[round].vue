@@ -5,8 +5,8 @@
     </div>
     
     <template v-else-if="race">
-      <!-- Fil d'Ariane -->
-      <nav aria-label="Fil d'Ariane" class="absolute top-0 left-0 right-0 z-20 container mx-auto px-4 pt-4">
+      <!-- Fil d'Ariane : dans le flux sur mobile (sinon il chevauche le titre du hero), superposé au hero dès md -->
+      <nav aria-label="Fil d'Ariane" class="relative z-20 pb-2 md:absolute md:top-0 md:left-0 md:right-0 md:container md:px-4 md:pt-4 md:pb-0">
         <ol class="flex flex-wrap items-center gap-x-2 text-sm text-gray-300">
           <li><NuxtLink to="/" class="inline-flex items-center min-h-11 hover:text-white underline-offset-2 hover:underline">Accueil</NuxtLink></li>
           <li aria-hidden="true">›</li>
@@ -31,7 +31,7 @@
       />
 
       <!-- Main Content -->
-      <div class="container mx-auto px-4 py-8 space-y-12 -mt-20 relative z-10">
+      <div class="container py-8 space-y-8 md:space-y-12 -mt-12 md:-mt-20 relative z-10">
         <RaceInfo :circuit="race.Circuit" />
         
         <div class="space-y-6">
@@ -44,7 +44,7 @@
       </div>
     </template>
     
-    <div v-else class="container mx-auto p-4 flex flex-col items-center justify-center min-h-[50vh]">
+    <div v-else class="py-4 flex flex-col items-center justify-center min-h-[50vh]">
       <div class="text-center py-12 space-y-4">
         <h2 class="text-3xl font-bold text-white">Course non trouvée</h2>
         <p class="text-gray-400">Les données pour cette course ne sont pas disponibles.</p>

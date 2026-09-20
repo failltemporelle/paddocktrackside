@@ -1,18 +1,20 @@
 <template>
-  <div class="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
+  <!-- Mobile : hero sans hauteur fixe, pleine largeur (compense la marge du conteneur) ; md+ : hauteur d'origine -->
+  <div class="relative flex flex-col justify-end w-auto -mx-4 sm:mx-0 min-h-0 md:h-[60vh] md:min-h-[500px] overflow-hidden">
     <!-- Background Image with Overlay -->
     <div class="absolute inset-0">
       <img 
         :src="circuitImage" 
-        :alt="circuit.circuitName"
+        alt=""
         class="w-full h-full object-cover transform scale-105"
+        @error="$event.target.style.display = 'none'"
       />
       <div class="absolute inset-0 bg-gradient-to-b from-f1-black/30 via-f1-black/60 to-f1-black"></div>
       <div class="absolute inset-0 bg-gradient-to-r from-f1-black/80 via-transparent to-transparent"></div>
     </div>
 
     <!-- Content -->
-    <div class="container relative h-full flex flex-col justify-end pb-16 px-4 mx-auto">
+    <div class="container relative pt-6 pb-10 md:pt-0 md:pb-16">
       <div class="max-w-4xl space-y-6 animate-slide-up">
         <!-- Badges -->
         <div class="flex items-center gap-3">
@@ -25,7 +27,7 @@
         </div>
 
         <!-- Title -->
-        <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold italic text-white leading-none tracking-tight">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold italic text-white leading-none tracking-tight">
           {{ raceName }}
         </h1>
 
@@ -35,7 +37,7 @@
         </h2>
 
         <!-- Details Grid -->
-        <div class="flex flex-wrap gap-8 pt-4 border-t border-white/10">
+        <div class="flex flex-wrap gap-x-8 gap-y-4 pt-4 border-t border-white/10">
           <div class="flex items-center gap-3 text-white/90">
             <div class="p-2 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
               <CalendarIcon class="w-6 h-6 text-f1-red" />
